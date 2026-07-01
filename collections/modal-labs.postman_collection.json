@@ -1,0 +1,130 @@
+{
+  "info": {
+    "name": "Modal Web Endpoints (Representative)",
+    "description": "REPRESENTATIVE collection - NOT a first-party Modal REST API. Modal's primary interface is the Python/JS/Go SDK and the `modal` CLI over gRPC. The only genuine HTTPS surface is user-deployed web endpoints on *.modal.run, whose routes and schemas are defined by the developer's own code. These requests illustrate the shape of a typical deployed endpoint.",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "variable": [
+    {
+      "key": "baseUrl",
+      "value": "https://your-workspace--your-app-your-endpoint.modal.run"
+    }
+  ],
+  "item": [
+    {
+      "name": "Web Endpoints",
+      "description": "User-deployed HTTPS endpoints on *.modal.run. Representative shapes only.",
+      "item": [
+        {
+          "name": "Invoke a GET web endpoint (representative).",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/?prompt=example",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                ""
+              ],
+              "query": [
+                {
+                  "key": "prompt",
+                  "value": "example"
+                }
+              ]
+            },
+            "description": "Representative GET handler for a function decorated with @modal.fastapi_endpoint(). Query parameters and response are defined by the developer's own code. Not a Modal-owned endpoint."
+          },
+          "response": []
+        },
+        {
+          "name": "Invoke a POST web endpoint (representative).",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"input\": \"example value\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{baseUrl}}/",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                ""
+              ]
+            },
+            "description": "Representative POST handler for @modal.fastapi_endpoint(method=\"POST\") or an ASGI/WSGI app. Request/response bodies are defined by the developer's own code. Not a Modal-owned endpoint."
+          },
+          "response": []
+        },
+        {
+          "name": "Invoke an arbitrary ASGI/WSGI route (representative).",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/any/developer/defined/route",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "any",
+                "developer",
+                "defined",
+                "route"
+              ]
+            },
+            "description": "For @modal.asgi_app / @modal.wsgi_app / @modal.web_server, the mounted app defines its own routes under the same *.modal.run host. Representative only."
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "Sandboxes",
+      "description": "Sandbox lifecycle is SDK/gRPC-only; only a tunneled port is HTTP.",
+      "item": [
+        {
+          "name": "Invoke a Sandbox tunnel port (representative).",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "https://sandbox-tunnel-host.modal.host/",
+              "protocol": "https",
+              "host": [
+                "sandbox-tunnel-host",
+                "modal",
+                "host"
+              ],
+              "path": [
+                ""
+              ]
+            },
+            "description": "A running Sandbox can expose a container port over an HTTPS network tunnel. Sandbox create/exec/terminate is SDK/gRPC-only; only the tunneled port is HTTP, and its shape is user-defined. Representative only."
+          },
+          "response": []
+        }
+      ]
+    }
+  ]
+}

@@ -1,0 +1,117 @@
+specification: FinOps Framework
+specificationVersion: '1.0'
+schema: https://www.finops.org/framework/
+provider: Modal
+providerId: modal-labs
+created: '2026-07-01'
+modified: '2026-07-01'
+reconciled: true
+tags:
+- Serverless
+- Compute
+- GPU
+- AI Infrastructure
+- FinOps
+- Cost Management
+- FOCUS
+description: >-
+  FinOps view of Modal spend. Modal bills a monthly plan fee (Starter $0,
+  Team $250, Enterprise custom) plus per-second usage of CPU cores, memory
+  (GiB), and GPU time, and per-GiB-month Volume storage. Free monthly credits
+  ($30 Starter, $100 Team) offset compute. Because Modal bills the underlying
+  container resources rather than API calls, cost control centers on
+  right-sizing GPUs, minimizing container wall-clock time, scaling to zero,
+  and choosing cheaper GPU classes when sufficient.
+notes: >-
+  Per-second rates are subject to change; verify against the Modal pricing
+  page during reconciliation. CPU has a 0.125-core minimum; Volumes include
+  1 TiB free.
+sources:
+- https://modal.com/pricing
+- https://modal.com/docs/guide/gpu
+- https://focus.finops.org/focus-specification/v1-3/
+alignedWith:
+  framework: FinOps Foundation Framework
+  frameworkUrl: https://www.finops.org/framework/
+  dataSpec: FOCUS
+  dataSpecVersion: '1.3'
+  dataSpecUrl: https://focus.finops.org/focus-specification/v1-3/
+publisherName: Modal
+serviceCategory: Compute
+billingModel:
+  pricingCategory: Usage-Based
+  billingFrequency: Monthly
+  billingCurrency: USD
+  chargeCategories:
+  - Usage
+  - Purchase
+  - Credit
+  - Adjustment
+focusColumns:
+  ServiceName: Modal
+  ServiceCategory: Compute
+  ProviderName: Modal
+  PublisherName: Modal
+  InvoiceIssuerName: Modal
+  BillingCurrency: USD
+  ChargeCategory: Usage
+  PricingCategory: Usage-Based
+meters:
+- name: gpu_seconds
+  description: GPU wall-clock time billed per second per GPU class (T4 through B200).
+  unit: seconds
+  aggregation: sum
+  dimensions:
+  - workspace
+  - gpu_type
+  - app
+- name: cpu_core_seconds
+  description: CPU core-seconds billed at $0.0000131 per core-second (0.125-core minimum).
+  unit: core_seconds
+  aggregation: sum
+  dimensions:
+  - workspace
+  - app
+- name: memory_gib_seconds
+  description: Memory billed at $0.00000222 per GiB per second of container runtime.
+  unit: gib_seconds
+  aggregation: sum
+  dimensions:
+  - workspace
+  - app
+- name: volume_gib_month
+  description: Volume storage billed at $0.09 per GiB/month with 1 TiB included free.
+  unit: gib_month
+  aggregation: sum
+  dimensions:
+  - workspace
+  - volume
+- name: plan_fee
+  description: Monthly subscription plan fee (Starter $0, Team $250, Enterprise custom).
+  unit: months
+  aggregation: sum
+  dimensions:
+  - workspace
+  - tier
+- name: included_credits
+  description: Monthly free compute credits applied against usage ($30 Starter, $100 Team).
+  unit: usd
+  aggregation: sum
+  dimensions:
+  - workspace
+  - tier
+principles:
+- name: Visibility
+  description: Inspect per-app and per-workspace container time and GPU burn in the Modal dashboard and usage exports.
+- name: Allocation
+  description: Tag apps and functions per workload/team; map workspaces to internal cost centers.
+- name: Optimization
+  description: >-
+    Scale to zero when idle, right-size GPUs (drop from H100 to L4/T4 when
+    sufficient), minimize container wall-clock time, use @modal.concurrent to
+    raise per-container utilization, and stay under free credit thresholds.
+- name: Accountability
+  description: Assign owners per app; review per-second compute spend monthly against budget and free-credit allowances.
+maintainers:
+- FN: Kin Lane
+  email: kin@apievangelist.com

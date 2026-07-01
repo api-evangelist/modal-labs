@@ -1,0 +1,80 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "Modal Web Endpoints (Representative)",
+    "version": "1.0-representative",
+    "description": "REPRESENTATIVE collection - NOT a first-party Modal REST API. Modal's primary interface is the Python/JS/Go SDK and the `modal` CLI over gRPC. The only genuine HTTPS surface is user-deployed web endpoints on *.modal.run, whose routes and schemas are defined by the developer's own code. These requests illustrate the shape of a typical deployed endpoint."
+  },
+  "request": {
+    "auth": {
+      "type": "none"
+    }
+  },
+  "items": [
+    {
+      "info": {
+        "name": "Web Endpoints",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Invoke a GET web endpoint (representative).",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://your-workspace--your-app-your-endpoint.modal.run/?prompt=example"
+          },
+          "docs": "Representative GET handler for a function decorated with @modal.fastapi_endpoint(). Query parameters and response are defined by the developer's own code. Not a Modal-owned endpoint."
+        },
+        {
+          "info": {
+            "name": "Invoke a POST web endpoint (representative).",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://your-workspace--your-app-your-endpoint.modal.run/",
+            "body": {
+              "type": "json",
+              "data": "{\n  \"input\": \"example value\"\n}"
+            }
+          },
+          "docs": "Representative POST handler for @modal.fastapi_endpoint(method=\"POST\") or an ASGI/WSGI app. Request/response bodies are defined by the developer's own code. Not a Modal-owned endpoint."
+        },
+        {
+          "info": {
+            "name": "Invoke an arbitrary ASGI/WSGI route (representative).",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://your-workspace--your-app-your-endpoint.modal.run/any/developer/defined/route"
+          },
+          "docs": "For @modal.asgi_app / @modal.wsgi_app / @modal.web_server, the mounted app defines its own routes under the same *.modal.run host. Representative only."
+        }
+      ]
+    },
+    {
+      "info": {
+        "name": "Sandboxes",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Invoke a Sandbox tunnel port (representative).",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://<sandbox-tunnel-host>.modal.host/"
+          },
+          "docs": "A running Sandbox can expose a container port over an HTTPS network tunnel. Sandbox lifecycle (create/exec/terminate) is SDK/gRPC-only; only the tunneled port is HTTP, and its shape is user-defined. Representative only."
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

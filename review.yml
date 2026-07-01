@@ -1,0 +1,107 @@
+aid: modal-labs
+name: Modal
+review:
+  question: Does Modal expose a conventional first-party public REST API?
+  answer: false
+  date: '2026-07-01'
+  reviewer: API Evangelist
+findings:
+  summary: |
+    Modal is an infrastructure-as-code serverless cloud whose primary
+    developer interface is a Python SDK (with JavaScript and Go SDKs) and the
+    `modal` CLI, both communicating with Modal's backend over gRPC. There is
+    no documented conventional first-party public REST API for defining or
+    invoking infrastructure. Developers write Python, decorate functions, and
+    deploy; the platform provisions containers, GPUs, volumes, and schedules.
+
+    The one genuine, developer-facing HTTPS surface is user-deployed web
+    endpoints: functions decorated with @modal.fastapi_endpoint (formerly
+    @modal.web_endpoint), @modal.asgi_app, @modal.wsgi_app, or
+    @modal.web_server are automatically served as HTTPS endpoints on
+    *.modal.run. The URL shape (https://<workspace>--<app>-<function>.modal.run)
+    is fixed by Modal, but the request/response contract is entirely defined by
+    the developer's own code. Sandboxes can likewise expose a container port
+    over an HTTPS network tunnel, again with a user-defined shape.
+
+    Everything else - Functions/remote invocation, Volumes, Dicts, Queues,
+    Secrets, Cron/scheduled functions, Images, and GPU attachment - is
+    SDK/gRPC/CLI-only with no public REST endpoint. Those surfaces are
+    catalogued here as developer capabilities, and their apis.yml entries
+    intentionally omit an OpenAPI reference so as not to imply a REST contract
+    that does not exist.
+  primaryInterface: Python SDK + JavaScript/Go SDKs + `modal` CLI over gRPC
+  transports:
+    - protocol: gRPC
+      documented: true
+      note: The control plane used by the SDK and CLI to define, deploy, and invoke infrastructure. Not a public REST API.
+    - protocol: HTTPS (user web endpoints)
+      scheme: https
+      baseURL: https://<workspace>--<app>-<function>.modal.run
+      documented: true
+      note: >-
+        Genuine HTTP surface, but each endpoint's routes and schema are
+        defined by the developer's own function code, not by a Modal-owned
+        contract. Represented by a clearly-labeled representative OpenAPI.
+    - protocol: HTTPS (sandbox tunnels)
+      scheme: https
+      documented: true
+      note: A running Sandbox can expose a container port over an HTTPS network tunnel; shape is user-defined.
+    - protocol: REST (first-party)
+      documented: false
+      note: No conventional Modal-owned public REST API is documented for infrastructure definition or invocation.
+  surfacesCatalogued:
+    - name: Functions and Remote Invocation
+      interface: SDK/gRPC
+      httpSurface: false
+    - name: Web Endpoints
+      interface: user-deployed HTTPS on *.modal.run
+      httpSurface: true
+    - name: Sandboxes
+      interface: SDK/gRPC lifecycle; optional HTTPS tunnel
+      httpSurface: partial
+    - name: Volumes
+      interface: SDK/CLI
+      httpSurface: false
+    - name: Dicts and Queues
+      interface: SDK
+      httpSurface: false
+    - name: Secrets
+      interface: SDK/CLI/dashboard
+      httpSurface: false
+    - name: Cron and Scheduled Functions
+      interface: SDK (declared in code)
+      httpSurface: false
+    - name: Images and GPU
+      interface: SDK (declared in code)
+      httpSurface: false
+    - name: Modal CLI
+      interface: CLI over gRPC
+      httpSurface: false
+sources:
+  - url: https://modal.com/docs
+    type: Documentation
+    note: Documentation is organized around the Python SDK guide and API reference, not a REST reference.
+  - url: https://modal.com/docs/guide/webhooks
+    type: Documentation
+    note: Web endpoints are user-defined HTTPS handlers deployed to *.modal.run via decorators.
+  - url: https://modal.com/docs/guide/sandbox
+    type: Documentation
+    note: Sandboxes are created and controlled via Sandbox.create() in the SDK; access is programmatic, with optional network tunnels.
+  - url: https://modal.com/docs/reference/cli/modal
+    type: Documentation
+    note: The `modal` CLI wraps the same gRPC control plane as the SDK.
+actions:
+  openapiPath: openapi/modal-labs-openapi.yml
+  openapiRepresentative: true
+  apisYmlUpdated: true
+  reason: |
+    A representative OpenAPI was authored for the user web-endpoint / sandbox
+    HTTP surface and is clearly labeled representative in its description,
+    because the concrete routes and schemas are defined by each developer's own
+    code rather than a fixed Modal contract. SDK-only surfaces omit an OpenAPI
+    reference in apis.yml to avoid implying a REST API that does not exist. The
+    README and this review state explicitly that the primary interface is the
+    SDK/CLI over gRPC.
+maintainers:
+- FN: Kin Lane
+  email: kin@apievangelist.com

@@ -1,0 +1,262 @@
+specification: API Commons Plans
+specificationVersion: '0.1'
+schema: https://raw.githubusercontent.com/api-evangelist/interface-research/main/schema/api-commons.yml#/$defs/Plans
+provider: Modal
+providerId: modal-labs
+created: '2026-07-01'
+modified: '2026-07-01'
+reconciled: true
+tags:
+- Serverless
+- Compute
+- GPU
+- AI Infrastructure
+- Plans
+description: >-
+  Modal combines named subscription tiers (Starter, Team, Enterprise) with
+  granular, usage-based, per-second compute billing. Every tier is billed as
+  "plan fee + compute", where compute is metered per second for CPU cores,
+  memory (GiB), and GPU time, plus per-GiB-month for Volume storage. Free
+  monthly credits offset compute on the Starter and Team tiers. There is no
+  per-request/API-call price because Modal bills the underlying container
+  resources, not HTTP calls.
+notes: >-
+  Per-second GPU, CPU, and memory rates and tier limits as published on the
+  Modal pricing page; verify current rates and the full GPU catalog on the
+  page. CPU has a 0.125-core minimum; Volumes include 1 TiB free.
+sources:
+- https://modal.com/pricing
+- https://modal.com/docs/guide/gpu
+plans:
+- id: modal-starter
+  name: Starter
+  type: subscription
+  description: >-
+    Entry tier at $0/month plan fee plus compute, with $30/month of free
+    compute credits, up to 3 workspace seats, 100 concurrent containers, and
+    10 concurrent GPUs.
+  entries:
+  - label: Plan Fee
+    name: starter_plan_fee
+    type: flat
+    metric: subscription
+    limit: -1
+    timeFrame: month
+    geo: global
+    unit: 1
+    price: $0 + compute per month
+    userMultiplied: false
+  - label: Included Compute Credits
+    name: starter_credits
+    type: usage
+    metric: credits
+    limit: -1
+    timeFrame: month
+    geo: global
+    unit: 1
+    price: $30/month free credits
+    userMultiplied: false
+  elements:
+  - name: Up to 3 workspace seats
+  - name: 100 concurrent containers
+  - name: 10 concurrent GPUs
+- id: modal-team
+  name: Team
+  type: subscription
+  description: >-
+    $250/month plan fee plus compute, with $100/month of free compute
+    credits, unlimited seats, 1,000 concurrent containers, and 50 concurrent
+    GPUs.
+  entries:
+  - label: Plan Fee
+    name: team_plan_fee
+    type: flat
+    metric: subscription
+    limit: -1
+    timeFrame: month
+    geo: global
+    unit: 1
+    price: $250 + compute per month
+    userMultiplied: false
+  - label: Included Compute Credits
+    name: team_credits
+    type: usage
+    metric: credits
+    limit: -1
+    timeFrame: month
+    geo: global
+    unit: 1
+    price: $100/month free credits
+    userMultiplied: false
+  elements:
+  - name: Unlimited seats
+  - name: 1,000 concurrent containers
+  - name: 50 concurrent GPUs
+- id: modal-enterprise
+  name: Enterprise
+  type: enterprise
+  description: >-
+    Custom pricing with volume-based discounts, unlimited seats, higher GPU
+    concurrency, and negotiated terms. Contact Modal sales.
+  entries:
+  - label: Enterprise Agreement
+    name: enterprise
+    type: flat
+    metric: contract
+    limit: -1
+    timeFrame: year
+    geo: global
+    unit: 1
+    price: custom / contact sales
+    userMultiplied: false
+  elements:
+  - name: Volume-based discounts
+  - name: Unlimited seats
+  - name: Higher GPU concurrency
+- id: modal-usage-compute
+  name: Usage-Based Compute
+  type: usage
+  description: >-
+    Per-second metered compute applied on top of every tier. GPU, CPU, and
+    memory are billed per second while a container is active; Volume storage
+    is billed per GiB-month.
+  entries:
+  - label: GPU - Nvidia B200
+    name: gpu_b200
+    type: usage
+    metric: gpu_seconds
+    limit: -1
+    timeFrame: month
+    geo: global
+    unit: 1
+    price: $0.001736 per second
+    userMultiplied: false
+  - label: GPU - Nvidia H200
+    name: gpu_h200
+    type: usage
+    metric: gpu_seconds
+    limit: -1
+    timeFrame: month
+    geo: global
+    unit: 1
+    price: $0.001261 per second
+    userMultiplied: false
+  - label: GPU - Nvidia H100
+    name: gpu_h100
+    type: usage
+    metric: gpu_seconds
+    limit: -1
+    timeFrame: month
+    geo: global
+    unit: 1
+    price: $0.001097 per second
+    userMultiplied: false
+  - label: GPU - Nvidia RTX PRO 6000
+    name: gpu_rtx_pro_6000
+    type: usage
+    metric: gpu_seconds
+    limit: -1
+    timeFrame: month
+    geo: global
+    unit: 1
+    price: $0.000842 per second
+    userMultiplied: false
+  - label: GPU - Nvidia A100 80GB
+    name: gpu_a100_80gb
+    type: usage
+    metric: gpu_seconds
+    limit: -1
+    timeFrame: month
+    geo: global
+    unit: 1
+    price: $0.000694 per second
+    userMultiplied: false
+  - label: GPU - Nvidia A100 40GB
+    name: gpu_a100_40gb
+    type: usage
+    metric: gpu_seconds
+    limit: -1
+    timeFrame: month
+    geo: global
+    unit: 1
+    price: $0.000583 per second
+    userMultiplied: false
+  - label: GPU - Nvidia L40S
+    name: gpu_l40s
+    type: usage
+    metric: gpu_seconds
+    limit: -1
+    timeFrame: month
+    geo: global
+    unit: 1
+    price: $0.000542 per second
+    userMultiplied: false
+  - label: GPU - Nvidia A10
+    name: gpu_a10
+    type: usage
+    metric: gpu_seconds
+    limit: -1
+    timeFrame: month
+    geo: global
+    unit: 1
+    price: $0.000306 per second
+    userMultiplied: false
+  - label: GPU - Nvidia L4
+    name: gpu_l4
+    type: usage
+    metric: gpu_seconds
+    limit: -1
+    timeFrame: month
+    geo: global
+    unit: 1
+    price: $0.000222 per second
+    userMultiplied: false
+  - label: GPU - Nvidia T4
+    name: gpu_t4
+    type: usage
+    metric: gpu_seconds
+    limit: -1
+    timeFrame: month
+    geo: global
+    unit: 1
+    price: $0.000164 per second
+    userMultiplied: false
+  - label: CPU
+    name: cpu
+    type: usage
+    metric: core_seconds
+    limit: -1
+    timeFrame: month
+    geo: global
+    unit: 1
+    price: $0.0000131 per core per second (min 0.125 cores)
+    userMultiplied: false
+  - label: Memory
+    name: memory
+    type: usage
+    metric: gib_seconds
+    limit: -1
+    timeFrame: month
+    geo: global
+    unit: 1
+    price: $0.00000222 per GiB per second
+    userMultiplied: false
+  - label: Volume Storage
+    name: volume_storage
+    type: usage
+    metric: gib_month
+    limit: -1
+    timeFrame: month
+    geo: global
+    unit: 1
+    price: $0.09 per GiB/month (1 TiB free)
+    userMultiplied: false
+  elements:
+  - name: Functions and Remote Invocation
+  - name: Web Endpoints
+  - name: Sandboxes
+  - name: Cron and Scheduled Functions
+  - name: Volumes
+maintainers:
+- FN: Kin Lane
+  email: kin@apievangelist.com

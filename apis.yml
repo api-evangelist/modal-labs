@@ -1,0 +1,216 @@
+aid: modal-labs
+url: https://raw.githubusercontent.com/api-evangelist/modal-labs/refs/heads/main/apis.yml
+name: Modal
+kind: company
+description: Modal is a serverless cloud for AI, data, and general compute. Developers
+  define infrastructure as code in Python (with JavaScript and Go SDKs) and run
+  functions, GPUs, sandboxes, web endpoints, cron jobs, and volumes on demand.
+  The primary developer interface is the Modal SDK and CLI communicating with a
+  gRPC backend, not a conventional first-party REST API. User-deployed Modal
+  Functions can be exposed as HTTPS web endpoints (@modal.fastapi_endpoint /
+  asgi_app / wsgi_app / web_server) on *.modal.run, and Sandboxes can expose
+  ports via network tunnels.
+image: https://kinlane-images.s3.amazonaws.com/shared/apis-json/apis-json-logo.jpg
+tags:
+- Serverless
+- Compute
+- GPU
+- AI Infrastructure
+- Sandboxes
+- Infrastructure as Code
+created: '2026-07-01'
+modified: '2026-07-01'
+specificationVersion: '0.19'
+apis:
+- aid: modal-labs:modal-labs-functions-api
+  name: Modal Functions and Remote Invocation
+  tags:
+  - Functions
+  - Remote Execution
+  - Serverless
+  - SDK
+  image: https://kinlane-images.s3.amazonaws.com/shared/apis-json/apis-json-logo.jpg
+  humanURL: https://modal.com/docs/guide/apps
+  properties:
+  - url: https://modal.com/docs/guide/apps
+    type: Documentation
+  - url: https://modal.com/docs/reference/modal.Function
+    type: APIReference
+  description: Decorate Python functions with @app.function to run them remotely on
+    Modal's cloud. Invoke deployed functions synchronously (.remote), asynchronously
+    (.spawn), in parallel (.map), or look them up from another app via
+    Function.from_name. This surface is SDK/gRPC-only - there is no first-party
+    REST endpoint; invocation happens through the Modal client libraries.
+- aid: modal-labs:modal-labs-web-endpoints-api
+  name: Modal Web Endpoints
+  tags:
+  - Web Endpoints
+  - HTTP
+  - FastAPI
+  - ASGI
+  - Webhooks
+  image: https://kinlane-images.s3.amazonaws.com/shared/apis-json/apis-json-logo.jpg
+  humanURL: https://modal.com/docs/guide/webhooks
+  baseURL: https://<workspace>--<app>-<function>.modal.run
+  properties:
+  - url: https://modal.com/docs/guide/webhooks
+    type: Documentation
+  - url: https://modal.com/docs/reference/modal.fastapi_endpoint
+    type: APIReference
+  - url: openapi/modal-labs-openapi.yml
+    type: OpenAPI
+  - url: collections/modal-labs.postman_collection.json
+    type: PostmanCollection
+  - url: collections/modal-labs.opencollection.json
+    type: OpenCollection
+  description: The genuine HTTPS surface of the platform. User functions decorated
+    with @modal.fastapi_endpoint, @modal.asgi_app, @modal.wsgi_app, or
+    @modal.web_server are auto-deployed as HTTPS endpoints on *.modal.run. The
+    URL shape and request/response schema are defined by the developer's own
+    code, so the accompanying OpenAPI is representative of a typical user
+    endpoint, not a fixed Modal-owned contract.
+- aid: modal-labs:modal-labs-sandboxes-api
+  name: Modal Sandboxes
+  tags:
+  - Sandboxes
+  - Code Execution
+  - Containers
+  - Agents
+  image: https://kinlane-images.s3.amazonaws.com/shared/apis-json/apis-json-logo.jpg
+  humanURL: https://modal.com/docs/guide/sandbox
+  properties:
+  - url: https://modal.com/docs/guide/sandbox
+    type: Documentation
+  - url: https://modal.com/docs/reference/modal.Sandbox
+    type: APIReference
+  - url: openapi/modal-labs-openapi.yml
+    type: OpenAPI
+  description: Secure containers for executing untrusted user or agent-generated
+    code, created via Sandbox.create() in the Python, JavaScript, and Go SDKs.
+    Supports exec() for arbitrary commands, filesystem access, Volumes, Secrets,
+    and network tunnels that can expose a container port over HTTPS. Lifecycle
+    control is SDK/gRPC-only; a running sandbox's tunneled port is the only HTTP
+    surface, and its shape is user-defined.
+- aid: modal-labs:modal-labs-volumes-api
+  name: Modal Volumes
+  tags:
+  - Volumes
+  - Storage
+  - Persistence
+  - SDK
+  image: https://kinlane-images.s3.amazonaws.com/shared/apis-json/apis-json-logo.jpg
+  humanURL: https://modal.com/docs/guide/volumes
+  properties:
+  - url: https://modal.com/docs/guide/volumes
+    type: Documentation
+  - url: https://modal.com/docs/reference/modal.Volume
+    type: APIReference
+  description: Distributed, high-performance file system volumes for sharing state
+    across functions and containers, managed via modal.Volume in the SDK and the
+    `modal volume` CLI. Read/write, commit, and reload operations are SDK/CLI-only
+    with no public REST endpoint.
+- aid: modal-labs:modal-labs-dicts-queues-api
+  name: Modal Dicts and Queues
+  tags:
+  - Dicts
+  - Queues
+  - Key Value
+  - Messaging
+  - SDK
+  image: https://kinlane-images.s3.amazonaws.com/shared/apis-json/apis-json-logo.jpg
+  humanURL: https://modal.com/docs/guide/dicts-and-queues
+  properties:
+  - url: https://modal.com/docs/guide/dicts-and-queues
+    type: Documentation
+  - url: https://modal.com/docs/reference/modal.Dict
+    type: APIReference
+  description: Distributed key-value store (modal.Dict) and distributed queue
+    (modal.Queue) for passing state and messages between functions and
+    containers. Accessed exclusively through the SDK; no public REST interface.
+- aid: modal-labs:modal-labs-secrets-api
+  name: Modal Secrets
+  tags:
+  - Secrets
+  - Configuration
+  - Credentials
+  - SDK
+  image: https://kinlane-images.s3.amazonaws.com/shared/apis-json/apis-json-logo.jpg
+  humanURL: https://modal.com/docs/guide/secrets
+  properties:
+  - url: https://modal.com/docs/guide/secrets
+    type: Documentation
+  - url: https://modal.com/docs/reference/modal.Secret
+    type: APIReference
+  description: Securely inject environment variables and credentials into functions
+    and sandboxes via modal.Secret, managed in the dashboard, CLI, or SDK
+    (Secret.from_name / from_dict). SDK/CLI-only; no public REST endpoint.
+- aid: modal-labs:modal-labs-scheduled-api
+  name: Modal Cron and Scheduled Functions
+  tags:
+  - Cron
+  - Scheduling
+  - Jobs
+  - SDK
+  image: https://kinlane-images.s3.amazonaws.com/shared/apis-json/apis-json-logo.jpg
+  humanURL: https://modal.com/docs/guide/cron
+  properties:
+  - url: https://modal.com/docs/guide/cron
+    type: Documentation
+  - url: https://modal.com/docs/reference/modal.Cron
+    type: APIReference
+  description: Run functions on a recurring schedule using modal.Period or
+    modal.Cron passed to @app.function(schedule=...). Schedules are declared in
+    code and managed through deployment; there is no REST scheduling API.
+- aid: modal-labs:modal-labs-images-gpu-api
+  name: Modal Images and GPU
+  tags:
+  - Images
+  - GPU
+  - Containers
+  - Environments
+  - SDK
+  image: https://kinlane-images.s3.amazonaws.com/shared/apis-json/apis-json-logo.jpg
+  humanURL: https://modal.com/docs/guide/images
+  properties:
+  - url: https://modal.com/docs/guide/images
+    type: Documentation
+  - url: https://modal.com/docs/reference/modal.Image
+    type: APIReference
+  description: Define container images programmatically with modal.Image
+    (from_registry, debian_slim, pip_install, run_commands) and attach GPUs by
+    passing gpu= (T4, L4, A10, L40S, A100, H100, H200, B200) to a function.
+    Image build and GPU attachment are declared in code and resolved by the
+    gRPC backend; no public REST endpoint.
+- aid: modal-labs:modal-labs-cli
+  name: Modal CLI
+  tags:
+  - CLI
+  - Tooling
+  - Deployment
+  image: https://kinlane-images.s3.amazonaws.com/shared/apis-json/apis-json-logo.jpg
+  humanURL: https://modal.com/docs/reference/cli/modal
+  properties:
+  - url: https://modal.com/docs/reference/cli/modal
+    type: Documentation
+  description: The `modal` command-line interface for deploying apps, running
+    functions, tailing logs, managing volumes/secrets/dicts, and launching
+    shells. Wraps the same gRPC control plane the SDK uses; it is the primary
+    operational entry point alongside the SDK.
+common:
+- type: GitHubOrganization
+  url: https://github.com/modal-labs
+- type: LinkedIn
+  url: https://www.linkedin.com/company/modal-labs
+- type: Website
+  url: https://modal.com/
+- type: Documentation
+  url: https://modal.com/docs
+- type: Plans
+  url: plans/modal-labs-plans-pricing.yml
+- type: RateLimits
+  url: rate-limits/modal-labs-rate-limits.yml
+- type: FinOps
+  url: finops/modal-labs-finops.yml
+maintainers:
+- FN: Kin Lane
+  email: kin@apievangelist.com

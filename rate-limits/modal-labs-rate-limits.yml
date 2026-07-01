@@ -1,0 +1,81 @@
+specification: API Commons Rate Limits
+specificationVersion: '0.1'
+schema: https://raw.githubusercontent.com/api-evangelist/interface-research/main/schema/api-commons.yml#/$defs/RateLimits
+provider: Modal
+providerId: modal-labs
+created: '2026-07-01'
+modified: '2026-07-01'
+reconciled: false
+tags:
+- Serverless
+- Compute
+- GPU
+- AI Infrastructure
+- Rate Limiting
+- Quotas
+- Concurrency
+description: >-
+  Modal governs usage through concurrency limits rather than classic
+  requests-per-minute API throttling, because the developer surface is an
+  SDK/gRPC control plane and user-deployed containers, not a metered REST
+  API. The key limits are concurrent containers and concurrent GPUs, which
+  scale by subscription tier. User-deployed web endpoints (*.modal.run) scale
+  by container concurrency; any request-level rate limiting on those endpoints
+  is defined by the developer's own function code.
+notes: >-
+  Concurrency limits shown are the published per-tier defaults; Enterprise
+  raises them via negotiated agreement. Verify current values on the Modal
+  pricing page and in the workspace dashboard.
+sources:
+- https://modal.com/pricing
+- https://modal.com/docs/guide/concurrent-inputs
+- https://modal.com/docs/guide/scale
+responseCodes:
+  throttled: 429
+limits:
+- name: Concurrent Containers (Starter)
+  scope: workspace
+  metric: containers
+  limit: 100
+  notes: Maximum simultaneously running containers on the Starter tier.
+- name: Concurrent GPUs (Starter)
+  scope: workspace
+  metric: gpus
+  limit: 10
+  notes: Maximum simultaneously attached GPUs on the Starter tier.
+- name: Concurrent Containers (Team)
+  scope: workspace
+  metric: containers
+  limit: 1000
+  notes: Maximum simultaneously running containers on the Team tier.
+- name: Concurrent GPUs (Team)
+  scope: workspace
+  metric: gpus
+  limit: 50
+  notes: Maximum simultaneously attached GPUs on the Team tier.
+- name: Concurrent Containers / GPUs (Enterprise)
+  scope: workspace
+  metric: containers
+  limit: negotiated
+  notes: Higher GPU and container concurrency under an Enterprise agreement.
+- name: Web Endpoint Request Rate
+  scope: function
+  metric: requests
+  limit: user-defined
+  notes: >-
+    *.modal.run endpoints scale with container concurrency; any per-request
+    rate limiting is implemented in the developer's own function code.
+policies:
+- name: Autoscaling
+  description: >-
+    Modal autoscales containers up to the workspace concurrency limit and
+    scales to zero when idle; excess demand queues rather than being rejected.
+- name: Tiered Concurrency
+  description: Container and GPU concurrency ceilings raise from Starter to Team to Enterprise.
+- name: Backoff Strategy
+  description: >-
+    SDK/CLI clients should implement exponential backoff with jitter and honor
+    Retry-After on any 429 from the control plane.
+maintainers:
+- FN: Kin Lane
+  email: kin@apievangelist.com
