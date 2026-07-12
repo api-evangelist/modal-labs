@@ -197,6 +197,8 @@ apis:
     shells. Wraps the same gRPC control plane the SDK uses; it is the primary
     operational entry point alongside the SDK.
 common:
+- type: DomainSecurity
+  url: security/modal-labs-domain-security.yml
 - type: GitHubOrganization
   url: https://github.com/modal-labs
 - type: LinkedIn
@@ -211,6 +213,8 @@ common:
   url: rate-limits/modal-labs-rate-limits.yml
 - type: FinOps
   url: finops/modal-labs-finops.yml
+- url: https://modal.com/blog/atom.xml
+  type: Blog
 maintainers:
 - FN: Kin Lane
   email: kin@apievangelist.com
