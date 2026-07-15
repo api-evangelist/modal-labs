@@ -197,6 +197,8 @@ apis:
     shells. Wraps the same gRPC control plane the SDK uses; it is the primary
     operational entry point alongside the SDK.
 common:
+- type: AgenticAccess
+  url: agentic-access/modal-labs-agentic-access.yml
 - type: DomainSecurity
   url: security/modal-labs-domain-security.yml
 - type: GitHubOrganization
