@@ -1,0 +1,14 @@
+{
+  "provider": "modal-labs",
+  "sources": [
+    "modal-labs-modal-web-endpoints-representative-api-openapi.yml"
+  ],
+  "outputs": [
+    "modal-labs-modal-web-endpoints-representative-api-openapi.yml"
+  ],
+  "archived": [],
+  "errors": [],
+  "warnings": [],
+  "notes": [],
+  "skipped": []
+}
