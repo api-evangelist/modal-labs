@@ -1,0 +1,71 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "Modal Web Endpoints (Representative) Modal Web Endpoints (Representative) Modal Web Endpoints (Representative) Modal Web Endpoints (Representative) API",
+    "version": "1.0-representative"
+  },
+  "items": [
+    {
+      "info": {
+        "name": "Modal Web Endpoints (Representative)",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Invoke a GET web endpoint (representative)",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://{workspace}--{app}-{function}.modal.run/",
+            "params": [
+              {
+                "name": "prompt",
+                "value": "",
+                "type": "query",
+                "description": "Example developer-defined query parameter."
+              }
+            ]
+          },
+          "docs": "Representative GET handler for a function decorated with @modal.fastapi_endpoint(). Query parameters and response schema are defined by the developer's own function signature."
+        },
+        {
+          "info": {
+            "name": "Invoke a POST web endpoint (representative)",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://{workspace}--{app}-{function}.modal.run/",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Representative POST handler for a function decorated with @modal.fastapi_endpoint(method=\"POST\") or served via an ASGI/WSGI app. The request and response bodies are defined by the developer's own code (e.g. Pydantic models)."
+        },
+        {
+          "info": {
+            "name": "Invoke an arbitrary route on an ASGI/WSGI app (representative)",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://{workspace}--{app}-{function}.modal.run/:proxy",
+            "params": [
+              {
+                "name": "proxy",
+                "value": "",
+                "type": "path",
+                "description": "Any path defined by the developer's mounted app."
+              }
+            ]
+          },
+          "docs": "For @modal.asgi_app, @modal.wsgi_app, and @modal.web_server, the mounted application defines its own arbitrary routes. This catch-all path represents that any route/method combination the developer's framework exposes is reachable under the same *.modal.run host. This is not a Modal-owned route."
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

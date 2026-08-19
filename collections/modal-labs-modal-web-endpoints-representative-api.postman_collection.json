@@ -1,0 +1,583 @@
+{
+  "item": [
+    {
+      "id": "95d74296-3650-40a1-8144-1426e2055cce",
+      "name": "Modal Web Endpoints (Representative)",
+      "description": {
+        "content": "",
+        "type": "text/plain"
+      },
+      "item": [
+        {
+          "id": "9103b3ea-8bf5-47ea-99d7-ab9e5846db7b",
+          "name": "Invoke a GET web endpoint (representative)",
+          "request": {
+            "name": "Invoke a GET web endpoint (representative)",
+            "description": {
+              "content": "Representative GET handler for a function decorated with @modal.fastapi_endpoint(). Query parameters and response schema are defined by the developer's own function signature.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                ""
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [
+                {
+                  "disabled": false,
+                  "key": "prompt",
+                  "value": "<string>",
+                  "description": "Example developer-defined query parameter."
+                }
+              ],
+              "variable": [
+                {
+                  "description": "Modal workspace / username slug.",
+                  "type": "any",
+                  "value": "{{workspace}}",
+                  "key": "workspace"
+                },
+                {
+                  "description": "Deployed Modal App name.",
+                  "type": "any",
+                  "value": "{{app}}",
+                  "key": "app"
+                },
+                {
+                  "description": "The decorated web-endpoint function name.",
+                  "type": "any",
+                  "value": "{{function}}",
+                  "key": "function"
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "44d1c751-f429-4066-be21-a46a7f20da39",
+              "name": "Developer-defined success response.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    ""
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "prompt",
+                      "value": "<string>"
+                    }
+                  ],
+                  "variable": [
+                    {
+                      "description": "Modal workspace / username slug.",
+                      "type": "any",
+                      "value": "{{workspace}}",
+                      "key": "workspace"
+                    },
+                    {
+                      "description": "Deployed Modal App name.",
+                      "type": "any",
+                      "value": "{{app}}",
+                      "key": "app"
+                    },
+                    {
+                      "description": "The decorated web-endpoint function name.",
+                      "type": "any",
+                      "value": "{{function}}",
+                      "key": "function"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"result\": \"example value\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "5bf3e095-f7cd-469c-acff-e57ef4e05061",
+              "name": "Unhandled error in the user function.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    ""
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "prompt",
+                      "value": "<string>"
+                    }
+                  ],
+                  "variable": [
+                    {
+                      "description": "Modal workspace / username slug.",
+                      "type": "any",
+                      "value": "{{workspace}}",
+                      "key": "workspace"
+                    },
+                    {
+                      "description": "Deployed Modal App name.",
+                      "type": "any",
+                      "value": "{{app}}",
+                      "key": "app"
+                    },
+                    {
+                      "description": "The decorated web-endpoint function name.",
+                      "type": "any",
+                      "value": "{{function}}",
+                      "key": "function"
+                    }
+                  ]
+                },
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Internal Server Error",
+              "code": 500,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "a7e7d91a-d189-45cb-a137-5262642a8dd5",
+          "name": "Invoke a POST web endpoint (representative)",
+          "request": {
+            "name": "Invoke a POST web endpoint (representative)",
+            "description": {
+              "content": "Representative POST handler for a function decorated with @modal.fastapi_endpoint(method=\"POST\") or served via an ASGI/WSGI app. The request and response bodies are defined by the developer's own code (e.g. Pydantic models).",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                ""
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "description": "Modal workspace / username slug.",
+                  "type": "any",
+                  "value": "{{workspace}}",
+                  "key": "workspace"
+                },
+                {
+                  "description": "Deployed Modal App name.",
+                  "type": "any",
+                  "value": "{{app}}",
+                  "key": "app"
+                },
+                {
+                  "description": "The decorated web-endpoint function name.",
+                  "type": "any",
+                  "value": "{{function}}",
+                  "key": "function"
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "POST",
+            "auth": null,
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"key_0\": \"string\",\n  \"key_1\": 6066.561445705986,\n  \"key_2\": 271\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": [
+            {
+              "id": "ac9d8efe-82cb-4010-b352-9cf0c15a9cd9",
+              "name": "Developer-defined success response.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    ""
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "description": "Modal workspace / username slug.",
+                      "type": "any",
+                      "value": "{{workspace}}",
+                      "key": "workspace"
+                    },
+                    {
+                      "description": "Deployed Modal App name.",
+                      "type": "any",
+                      "value": "{{app}}",
+                      "key": "app"
+                    },
+                    {
+                      "description": "The decorated web-endpoint function name.",
+                      "type": "any",
+                      "value": "{{function}}",
+                      "key": "function"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"input\": \"example value\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"result\": \"example value\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "49f4ea5f-6c1d-47d1-a2bf-9d6adf082cf3",
+              "name": "Validation error (when the endpoint uses FastAPI/Pydantic).",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    ""
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "description": "Modal workspace / username slug.",
+                      "type": "any",
+                      "value": "{{workspace}}",
+                      "key": "workspace"
+                    },
+                    {
+                      "description": "Deployed Modal App name.",
+                      "type": "any",
+                      "value": "{{app}}",
+                      "key": "app"
+                    },
+                    {
+                      "description": "The decorated web-endpoint function name.",
+                      "type": "any",
+                      "value": "{{function}}",
+                      "key": "function"
+                    }
+                  ]
+                },
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"input\": \"example value\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Unprocessable Entity (WebDAV) (RFC 4918)",
+              "code": 422,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            },
+            {
+              "id": "905814ea-a298-4f59-b977-ddff3f3aa5ef",
+              "name": "Unhandled error in the user function.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    ""
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "description": "Modal workspace / username slug.",
+                      "type": "any",
+                      "value": "{{workspace}}",
+                      "key": "workspace"
+                    },
+                    {
+                      "description": "Deployed Modal App name.",
+                      "type": "any",
+                      "value": "{{app}}",
+                      "key": "app"
+                    },
+                    {
+                      "description": "The decorated web-endpoint function name.",
+                      "type": "any",
+                      "value": "{{function}}",
+                      "key": "function"
+                    }
+                  ]
+                },
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"input\": \"example value\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Internal Server Error",
+              "code": 500,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "d7a5aef6-1948-4260-95bf-08d9fafcc57c",
+          "name": "Invoke an arbitrary route on an ASGI/WSGI app (representative)",
+          "request": {
+            "name": "Invoke an arbitrary route on an ASGI/WSGI app (representative)",
+            "description": {
+              "content": "For @modal.asgi_app, @modal.wsgi_app, and @modal.web_server, the mounted application defines its own arbitrary routes. This catch-all path represents that any route/method combination the developer's framework exposes is reachable under the same *.modal.run host. This is not a Modal-owned route.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                ":proxy"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<string>",
+                  "key": "proxy",
+                  "description": "(Required) Any path defined by the developer's mounted app."
+                },
+                {
+                  "description": "Modal workspace / username slug.",
+                  "type": "any",
+                  "value": "{{workspace}}",
+                  "key": "workspace"
+                },
+                {
+                  "description": "Deployed Modal App name.",
+                  "type": "any",
+                  "value": "{{app}}",
+                  "key": "app"
+                },
+                {
+                  "description": "The decorated web-endpoint function name.",
+                  "type": "any",
+                  "value": "{{function}}",
+                  "key": "function"
+                }
+              ]
+            },
+            "method": "GET",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "ba098534-ae18-45eb-b8f7-5616b821fac1",
+              "name": "Developer-defined response for the matched route.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    ":proxy"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "proxy",
+                      "description": "(Required) Any path defined by the developer's mounted app."
+                    },
+                    {
+                      "description": "Modal workspace / username slug.",
+                      "type": "any",
+                      "value": "{{workspace}}",
+                      "key": "workspace"
+                    },
+                    {
+                      "description": "Deployed Modal App name.",
+                      "type": "any",
+                      "value": "{{app}}",
+                      "key": "app"
+                    },
+                    {
+                      "description": "The decorated web-endpoint function name.",
+                      "type": "any",
+                      "value": "{{function}}",
+                      "key": "function"
+                    }
+                  ]
+                },
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        }
+      ],
+      "event": []
+    }
+  ],
+  "event": [],
+  "variable": [
+    {
+      "description": {
+        "content": "Modal workspace / username slug.",
+        "type": "text/plain"
+      },
+      "type": "any",
+      "value": "your-workspace",
+      "key": "workspace"
+    },
+    {
+      "description": {
+        "content": "Deployed Modal App name.",
+        "type": "text/plain"
+      },
+      "type": "any",
+      "value": "your-app",
+      "key": "app"
+    },
+    {
+      "description": {
+        "content": "The decorated web-endpoint function name.",
+        "type": "text/plain"
+      },
+      "type": "any",
+      "value": "your-endpoint",
+      "key": "function"
+    },
+    {
+      "type": "string",
+      "value": "https://{{workspace}}--{{app}}-{{function}}.modal.run",
+      "key": "baseUrl"
+    }
+  ],
+  "info": {
+    "_postman_id": "494b093a-b6fc-46e2-b707-1fa67e822e12",
+    "name": "Modal Web Endpoints (Representative) Modal Web Endpoints (Representative) Modal Web Endpoints (Representative) Modal Web Endpoints (Representative) API",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "description": {
+      "content": "REPRESENTATIVE SPECIFICATION - NOT A FIRST-PARTY MODAL REST API.\nModal's primary developer interface is the Python SDK (plus JavaScript and Go SDKs) and the `modal` CLI, communicating with Modal's backend over gRPC. Modal does NOT publish a conventional first-party public REST API for defining or invoking infrastructure.\nThe only genuine HTTPS surface is USER-DEPLOYED web endpoints: functions decorated with @modal.fastapi_endpoint (formerly @modal.web_endpoint), @modal.asgi_app, @modal.wsgi_app, or @modal.web_server are automatically served on *.modal.run. The URL host shape (https://<workspace>--<app>-<function>.modal.run) is fixed by Modal, but the routes, methods, and request/response schemas are entirely defined by the developer's own code. A running Sandbox can similarly expose a container port over an HTTPS network tunnel.\nThis document illustrates the SHAPE of a typical user-deployed endpoint so the surface can be catalogued. It is representative only; the concrete contract varies per deployed function. Do not treat any path or schema below as an official Modal-owned endpoint.\n\nContact Support:\n Name: Modal",
+      "type": "text/plain"
+    }
+  }
+}
