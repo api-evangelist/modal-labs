@@ -32,7 +32,7 @@ tags:
 - Infrastructure as Code
 created: '2026-07-01'
 modified: '2026-07-01'
-specificationVersion: '0.19'
+specificationVersion: '0.23'
 apis:
 - aid: modal-labs:modal-labs-functions-api
   name: Modal Functions and Remote Invocation
