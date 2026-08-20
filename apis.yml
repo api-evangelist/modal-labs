@@ -76,6 +76,12 @@ apis:
   tags:
   - Dicts
   - Queues
+  - Key-Value
+  - Messaging
+  - SDK
+  tags_raw:
+  - Dicts
+  - Queues
   - Key Value
   - Messaging
   - SDK
@@ -112,6 +118,11 @@ apis:
   tags:
   - Cron
   - Scheduling
+  - Job
+  - SDK
+  tags_raw:
+  - Cron
+  - Scheduling
   - Jobs
   - SDK
   image: https://kinlane-images.s3.amazonaws.com/shared/apis-json/apis-json-logo.jpg
@@ -127,6 +138,12 @@ apis:
 - aid: modal-labs:modal-labs-images-gpu-api
   name: Modal Images and GPU
   tags:
+  - Image
+  - GPU
+  - Containers
+  - Environments
+  - SDK
+  tags_raw:
   - Images
   - GPU
   - Containers
