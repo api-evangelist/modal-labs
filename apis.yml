@@ -10,6 +10,18 @@ description: Modal is a serverless cloud for AI, data, and general compute. Deve
   Functions can be exposed as HTTPS web endpoints (@modal.fastapi_endpoint /
   asgi_app / wsgi_app / web_server) on *.modal.run, and Sandboxes can expose
   ports via network tunnels.
+deliveryModel:
+  model: saas
+  open_source: false
+  commercial: true
+  callable_host: true
+  label: Hosted service · you call their endpoint
+  confidence: high
+  source:
+  - openapi
+  - pricing
+  generated: '2026-08-28'
+  method: derived
 accessModel:
   pricing: paid
   onboarding: unknown
