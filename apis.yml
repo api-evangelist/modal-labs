@@ -2,14 +2,11 @@ aid: modal-labs
 url: https://raw.githubusercontent.com/api-evangelist/modal-labs/refs/heads/main/apis.yml
 name: Modal
 kind: company
-description: Modal is a serverless cloud for AI, data, and general compute. Developers
-  define infrastructure as code in Python (with JavaScript and Go SDKs) and run
-  functions, GPUs, sandboxes, web endpoints, cron jobs, and volumes on demand.
-  The primary developer interface is the Modal SDK and CLI communicating with a
-  gRPC backend, not a conventional first-party REST API. User-deployed Modal
-  Functions can be exposed as HTTPS web endpoints (@modal.fastapi_endpoint /
-  asgi_app / wsgi_app / web_server) on *.modal.run, and Sandboxes can expose
-  ports via network tunnels.
+description: Modal is a serverless cloud for AI, data, and general compute. Developers define infrastructure as
+  code in Python (with JavaScript and Go SDKs) and run functions, GPUs, sandboxes, web endpoints, cron jobs, and
+  volumes on demand. The primary developer interface is the Modal SDK and CLI communicating with a gRPC backend,
+  not a conventional first-party REST API. User-deployed Modal Functions can be exposed as HTTPS web endpoints (@modal.fastapi_endpoint
+  / asgi_app / wsgi_app / web_server) on *.modal.run, and Sandboxes can expose ports via network tunnels.
 deliveryModel:
   model: saas
   open_source: false
@@ -60,11 +57,10 @@ apis:
     type: Documentation
   - url: https://modal.com/docs/reference/modal.Function
     type: APIReference
-  description: >-
-    Decorate Python functions with @app.function to run them remotely on Modal's cloud. Invoke deployed
-    functions synchronously (.remote), asynchronously (.spawn), in parallel (.map), or look them up from
-    another app via Function.from_name. This surface is SDK/gRPC-only - there is no first-party REST endpoint;
-    invocation happens through the Modal client libraries.
+  description: Decorate Python functions with @app.function to run them remotely on Modal's cloud. Invoke deployed
+    functions synchronously (.remote), asynchronously (.spawn), in parallel (.map), or look them up from another
+    app via Function.from_name. This surface is SDK/gRPC-only - there is no first-party REST endpoint; invocation
+    happens through the Modal client libraries.
 - aid: modal-labs:modal-labs-volumes-api
   name: Modal Volumes
   tags:
@@ -79,10 +75,9 @@ apis:
     type: Documentation
   - url: https://modal.com/docs/reference/modal.Volume
     type: APIReference
-  description: >-
-    Distributed, high-performance file system volumes for sharing state across functions and containers,
-    managed via modal.Volume in the SDK and the `modal volume` CLI. Read/write, commit, and reload operations
-    are SDK/CLI-only with no public REST endpoint.
+  description: Distributed, high-performance file system volumes for sharing state across functions and containers,
+    managed via modal.Volume in the SDK and the `modal volume` CLI. Read/write, commit, and reload operations are
+    SDK/CLI-only with no public REST endpoint.
 - aid: modal-labs:modal-labs-dicts-queues-api
   name: Modal Dicts and Queues
   tags:
@@ -104,8 +99,7 @@ apis:
     type: Documentation
   - url: https://modal.com/docs/reference/modal.Dict
     type: APIReference
-  description: >-
-    Distributed key-value store (modal.Dict) and distributed queue (modal.Queue) for passing state and
+  description: Distributed key-value store (modal.Dict) and distributed queue (modal.Queue) for passing state and
     messages between functions and containers. Accessed exclusively through the SDK; no public REST interface.
 - aid: modal-labs:modal-labs-secrets-api
   name: Modal Secrets
@@ -121,10 +115,8 @@ apis:
     type: Documentation
   - url: https://modal.com/docs/reference/modal.Secret
     type: APIReference
-  description: >-
-    Securely inject environment variables and credentials into functions and sandboxes via modal.Secret,
-    managed in the dashboard, CLI, or SDK (Secret.from_name / from_dict). SDK/CLI-only; no public REST
-    endpoint.
+  description: Securely inject environment variables and credentials into functions and sandboxes via modal.Secret,
+    managed in the dashboard, CLI, or SDK (Secret.from_name / from_dict). SDK/CLI-only; no public REST endpoint.
 - aid: modal-labs:modal-labs-scheduled-api
   name: Modal Cron and Scheduled Functions
   tags:
@@ -144,8 +136,7 @@ apis:
     type: Documentation
   - url: https://modal.com/docs/reference/modal.Cron
     type: APIReference
-  description: >-
-    Run functions on a recurring schedule using modal.Period or modal.Cron passed to @app.function(schedule=...).
+  description: Run functions on a recurring schedule using modal.Period or modal.Cron passed to @app.function(schedule=...).
     Schedules are declared in code and managed through deployment; there is no REST scheduling API.
 - aid: modal-labs:modal-labs-images-gpu-api
   name: Modal Images and GPU
@@ -168,11 +159,9 @@ apis:
     type: Documentation
   - url: https://modal.com/docs/reference/modal.Image
     type: APIReference
-  description: >-
-    Define container images programmatically with modal.Image (from_registry, debian_slim, pip_install,
-    run_commands) and attach GPUs by passing gpu= (T4, L4, A10, L40S, A100, H100, H200, B200) to a function.
-    Image build and GPU attachment are declared in code and resolved by the gRPC backend; no public REST
-    endpoint.
+  description: Define container images programmatically with modal.Image (from_registry, debian_slim, pip_install,
+    run_commands) and attach GPUs by passing gpu= (T4, L4, A10, L40S, A100, H100, H200, B200) to a function. Image
+    build and GPU attachment are declared in code and resolved by the gRPC backend; no public REST endpoint.
 - aid: modal-labs:modal-labs-cli
   name: Modal CLI
   tags:
@@ -184,14 +173,13 @@ apis:
   properties:
   - url: https://modal.com/docs/reference/cli/modal
     type: Documentation
-  description: >-
-    The `modal` command-line interface for deploying apps, running functions, tailing logs, managing volumes/secrets/dicts,
-    and launching shells. Wraps the same gRPC control plane the SDK uses; it is the primary operational
-    entry point alongside the SDK.
+  description: The `modal` command-line interface for deploying apps, running functions, tailing logs, managing
+    volumes/secrets/dicts, and launching shells. Wraps the same gRPC control plane the SDK uses; it is the primary
+    operational entry point alongside the SDK.
 - aid: modal-labs:modal-labs-modal-web-endpoints-representative-api
   name: Modal Modal Web Endpoints (Representative) API
-  description: >-
-    The Modal Web Endpoints (Representative) API from Modal — 2 operation(s) for modal web endpoints (representative).
+  description: The Modal Web Endpoints (Representative) API from Modal — 2 operation(s) for modal web endpoints
+    (representative).
   humanURL: https://modal.com/docs/guide/apps
   baseURL: https://<workspace>--<app>-<function>.modal.run
   tags:
@@ -211,6 +199,220 @@ apis:
     url: https://modal.com/docs/guide/sandbox
   - type: APIReference
     url: https://modal.com/docs/reference/modal.Sandbox
+- aid: modal-labs:modal-functions-api
+  name: Modal Functions API
+  tags:
+  - Functions
+  - Serverless
+  - Python
+  image: https://kinlane-images.s3.amazonaws.com/shared/apis-json/apis-json-logo.jpg
+  humanURL: https://modal.com/docs/guide/apps
+  baseURL: https://api.modal.com
+  properties:
+  - url: https://modal.com/docs/guide/apps
+    type: Documentation
+  - url: https://modal.com/docs/reference/modal.Function
+    type: APIReference
+  - url: graphql/modal-graphql.md
+    type: GraphQL
+  description: Defines, deploys, and invokes serverless Python Functions on Modal with per-function GPU/CPU/memory
+    configuration, autoscaling, and sub-second cold starts.
+- aid: modal-labs:modal-apps-api
+  name: Modal Apps API
+  tags:
+  - Application
+  - Deployment
+  tags_raw:
+  - Apps
+  - Deployments
+  image: https://kinlane-images.s3.amazonaws.com/shared/apis-json/apis-json-logo.jpg
+  humanURL: https://modal.com/docs/guide/apps
+  baseURL: https://api.modal.com
+  properties:
+  - url: https://modal.com/docs/guide/apps
+    type: Documentation
+  - url: https://modal.com/docs/reference/modal.App
+    type: APIReference
+  description: Logical grouping of functions, classes, and resources deployed and versioned together as an App.
+- aid: modal-labs:modal-sandboxes-api
+  name: Modal Sandboxes API
+  tags:
+  - Sandboxes
+  - Code Execution
+  - Agents
+  image: https://kinlane-images.s3.amazonaws.com/shared/apis-json/apis-json-logo.jpg
+  humanURL: https://modal.com/docs/guide/sandbox
+  baseURL: https://api.modal.com
+  properties:
+  - url: https://modal.com/docs/guide/sandbox
+    type: Documentation
+  - url: https://modal.com/docs/reference/modal.Sandbox
+    type: APIReference
+  description: Spins up isolated, GPU-capable sandbox containers for running untrusted code (LLM agents, tool use,
+    code-interpreter workflows) with file-system and network controls.
+- aid: modal-labs:modal-images-api
+  name: Modal Images API
+  tags:
+  - Image
+  - Containers
+  - Builds
+  tags_raw:
+  - Images
+  - Containers
+  - Build
+  image: https://kinlane-images.s3.amazonaws.com/shared/apis-json/apis-json-logo.jpg
+  humanURL: https://modal.com/docs/guide/images
+  baseURL: https://api.modal.com
+  properties:
+  - url: https://modal.com/docs/guide/images
+    type: Documentation
+  - url: https://modal.com/docs/reference/modal.Image
+    type: APIReference
+  description: Builds, caches, and rehydrates container images with pip / conda / apt / uv layers and supports custom
+    Dockerfiles for function and sandbox runtimes.
+- aid: modal-labs:modal-volumes-api
+  name: Modal Volumes API
+  tags:
+  - Volumes
+  - Storage
+  - Persistent
+  image: https://kinlane-images.s3.amazonaws.com/shared/apis-json/apis-json-logo.jpg
+  humanURL: https://modal.com/docs/guide/volumes
+  baseURL: https://api.modal.com
+  properties:
+  - url: https://modal.com/docs/guide/volumes
+    type: Documentation
+  - url: https://modal.com/docs/reference/modal.Volume
+    type: APIReference
+  description: Distributed read/write Volumes for persistent storage of model weights, datasets, and caches across
+    function invocations.
+- aid: modal-labs:modal-network-file-systems-api
+  name: Modal Network File Systems API
+  tags:
+  - Filesystem
+  - NFS
+  - Storage
+  tags_raw:
+  - File System
+  - NFS
+  - Storage
+  image: https://kinlane-images.s3.amazonaws.com/shared/apis-json/apis-json-logo.jpg
+  humanURL: https://modal.com/docs/guide/network-file-systems
+  baseURL: https://api.modal.com
+  properties:
+  - url: https://modal.com/docs/guide/network-file-systems
+    type: Documentation
+  description: Network File Systems for shared, mountable file storage across multiple functions and sandboxes.
+- aid: modal-labs:modal-secrets-api
+  name: Modal Secrets API
+  tags:
+  - Secrets
+  - Configuration
+  image: https://kinlane-images.s3.amazonaws.com/shared/apis-json/apis-json-logo.jpg
+  humanURL: https://modal.com/docs/guide/secrets
+  baseURL: https://api.modal.com
+  properties:
+  - url: https://modal.com/docs/guide/secrets
+    type: Documentation
+  - url: https://modal.com/docs/reference/modal.Secret
+    type: APIReference
+  description: Stores environment-variable secrets and API keys, mountable into functions and sandboxes at runtime.
+- aid: modal-labs:modal-web-endpoints-api
+  name: Modal Web Endpoints API
+  tags:
+  - HTTP
+  - Web
+  - WSGI
+  - ASGI
+  image: https://kinlane-images.s3.amazonaws.com/shared/apis-json/apis-json-logo.jpg
+  humanURL: https://modal.com/docs/guide/webhooks
+  baseURL: https://api.modal.com
+  properties:
+  - url: https://modal.com/docs/guide/webhooks
+    type: Documentation
+  description: Publishes HTTP, WebSocket, and ASGI/WSGI web endpoints (FastAPI, Flask, Streamlit) backed by serverless
+    Modal containers with custom domains and TLS.
+- aid: modal-labs:modal-cron-api
+  name: Modal Cron API
+  tags:
+  - Cron
+  - Schedules
+  image: https://kinlane-images.s3.amazonaws.com/shared/apis-json/apis-json-logo.jpg
+  humanURL: https://modal.com/docs/guide/cron
+  baseURL: https://api.modal.com
+  properties:
+  - url: https://modal.com/docs/guide/cron
+    type: Documentation
+  description: Schedules functions to run on cron expressions with retries, time-zone awareness, and job history.
+- aid: modal-labs:modal-queues-api
+  name: Modal Queues API
+  tags:
+  - Queues
+  - Messaging
+  image: https://kinlane-images.s3.amazonaws.com/shared/apis-json/apis-json-logo.jpg
+  humanURL: https://modal.com/docs/reference/modal.Queue
+  baseURL: https://api.modal.com
+  properties:
+  - url: https://modal.com/docs/reference/modal.Queue
+    type: APIReference
+  description: Distributed FIFO queues for asynchronous workloads, work-stealing, and producer/consumer patterns
+    across functions.
+- aid: modal-labs:modal-dicts-api
+  name: Modal Dicts API
+  tags:
+  - Dicts
+  - Key-Value Store
+  image: https://kinlane-images.s3.amazonaws.com/shared/apis-json/apis-json-logo.jpg
+  humanURL: https://modal.com/docs/reference/modal.Dict
+  baseURL: https://api.modal.com
+  properties:
+  - url: https://modal.com/docs/reference/modal.Dict
+    type: APIReference
+  description: Distributed dictionaries (key-value stores) for sharing state between functions and across container
+    restarts.
+- aid: modal-labs:modal-tunnels-api
+  name: Modal Tunnels API
+  tags:
+  - Tunnels
+  - Networking
+  image: https://kinlane-images.s3.amazonaws.com/shared/apis-json/apis-json-logo.jpg
+  humanURL: https://modal.com/docs/guide/tunnels
+  baseURL: https://api.modal.com
+  properties:
+  - url: https://modal.com/docs/guide/tunnels
+    type: Documentation
+  description: Forwards local ports into Modal containers (and vice versa) for development, debugging, and hybrid
+    networking.
+- aid: modal-labs:modal-environments-api
+  name: Modal Environments API
+  tags:
+  - Environments
+  - Workspaces
+  image: https://kinlane-images.s3.amazonaws.com/shared/apis-json/apis-json-logo.jpg
+  humanURL: https://modal.com/docs/guide/environments
+  baseURL: https://api.modal.com
+  properties:
+  - url: https://modal.com/docs/guide/environments
+    type: Documentation
+  description: Multi-environment isolation (dev / staging / prod) within a workspace, each with its own apps, secrets,
+    and quotas.
+- aid: modal-labs:modal-token-api
+  name: Modal Token / Workspace API
+  tags:
+  - Workspace
+  - Tokens
+  - Authentication
+  tags_raw:
+  - Workspace
+  - Tokens
+  - Auth
+  image: https://kinlane-images.s3.amazonaws.com/shared/apis-json/apis-json-logo.jpg
+  humanURL: https://modal.com/docs/guide/workspaces
+  baseURL: https://api.modal.com
+  properties:
+  - url: https://modal.com/docs/guide/workspaces
+    type: Documentation
+  description: Manages workspaces, tokens, members, and authentication for the Modal control plane.
 common:
 - type: AgenticAccess
   url: agentic-access/modal-labs-agentic-access.yml
