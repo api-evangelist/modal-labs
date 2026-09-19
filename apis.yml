@@ -38,10 +38,17 @@ tags:
 - Compute
 - GPU
 - AI Infrastructure
+- Sandbox
+- Infrastructure as Code
+tags_raw:
+- Serverless
+- Compute
+- GPU
+- AI Infrastructure
 - Sandboxes
 - Infrastructure as Code
 created: '2026-07-01'
-modified: '2026-09-16'
+modified: '2026-09-18'
 specificationVersion: '0.23'
 apis:
 - aid: modal-labs:modal-labs-functions-api
@@ -147,7 +154,7 @@ apis:
   - Image
   - GPU
   - Containers
-  - Environments
+  - Environment
   - SDK
   tags_raw:
   - Images
@@ -173,9 +180,9 @@ apis:
   - Tooling
   - Deployment
   image: https://kinlane-images.s3.amazonaws.com/shared/apis-json/apis-json-logo.jpg
-  humanURL: https://modal.com/docs/reference/cli/modal
+  humanURL: https://modal.com/docs/cli/latest/intro
   properties:
-  - url: https://modal.com/docs/reference/cli/modal
+  - url: https://modal.com/docs/cli/latest/intro
     type: Documentation
   description: The `modal` command-line interface for deploying apps, running functions, tailing logs,
     managing volumes/secrets/dicts, and launching shells. Wraps the same gRPC control plane the SDK uses;
@@ -217,8 +224,9 @@ apis:
     type: Documentation
   - url: https://modal.com/docs/reference/modal.Function
     type: APIReference
-  - url: graphql/modal-graphql.md
-    type: GraphQL
+  - url: grpc/modal-labs-api.proto
+    type: Protobuf
+    name: Modal gRPC control plane (modal.client.ModalClient, 251 RPCs)
   description: Defines, deploys, and invokes serverless Python Functions on Modal with per-function GPU/CPU/memory
     configuration, autoscaling, and sub-second cold starts.
 - aid: modal-labs:modal-apps-api
@@ -242,6 +250,10 @@ apis:
 - aid: modal-labs:modal-sandboxes-api
   name: Modal Sandboxes API
   tags:
+  - Sandbox
+  - Code Execution
+  - Agents
+  tags_raw:
   - Sandboxes
   - Code Execution
   - Agents
@@ -342,6 +354,9 @@ apis:
   name: Modal Cron API
   tags:
   - Cron
+  - Schedule
+  tags_raw:
+  - Cron
   - Schedules
   image: https://kinlane-images.s3.amazonaws.com/shared/apis-json/apis-json-logo.jpg
   humanURL: https://modal.com/docs/guide/cron
@@ -393,6 +408,9 @@ apis:
 - aid: modal-labs:modal-environments-api
   name: Modal Environments API
   tags:
+  - Environment
+  - Workspace
+  tags_raw:
   - Environments
   - Workspaces
   image: https://kinlane-images.s3.amazonaws.com/shared/apis-json/apis-json-logo.jpg
@@ -441,6 +459,77 @@ common:
   url: finops/modal-labs-finops.yml
 - url: https://modal.com/blog/atom.xml
   type: Blog
+- type: Protobuf
+  url: grpc/modal-labs-api.proto
+- type: Packages
+  url: packages/modal-labs-packages.yml
+- type: SDKs
+  url: packages/modal-labs-packages.yml
+- type: CLI
+  url: cli/modal-labs-cli.yml
+- type: AgentSkill
+  url: skills/_index.yml
+- type: LLMsTxt
+  url: llms/modal-labs-llms.txt
+- type: WellKnown
+  url: well-known/modal-labs-well-known.yml
+- type: OpenIDConnect
+  url: https://oidc.modal.com/.well-known/openid-configuration
+- type: Authentication
+  url: authentication/modal-labs-authentication.yml
+- type: Conventions
+  url: conventions/modal-labs-conventions.yml
+- type: Idempotency
+  url: conventions/modal-labs-conventions.yml
+- type: ErrorCatalog
+  url: errors/modal-labs-problem-types.yml
+- type: DataModel
+  url: data-model/modal-labs-data-model.yml
+- type: Conformance
+  url: conformance/modal-labs-conformance.yml
+- type: Compliance
+  url: security/modal-labs-trust-center.yml
+- type: TrustCenter
+  url: https://trust.modal.com/
+- type: VulnerabilityDisclosure
+  url: security/modal-labs-vulnerability-disclosure.yml
+- type: Security
+  url: security/modal-labs-vulnerability-disclosure.yml
+- type: Lifecycle
+  url: lifecycle/modal-labs-lifecycle.yml
+- type: Deprecation
+  url: https://modal.com/docs/guide/feature-maturity
+- type: StatusPage
+  url: https://status.modal.com/
+- type: ChangeLog
+  url: https://modal.com/docs/sdk/py/releases
+- type: Overlay
+  url: overlays/modal-labs-modal-web-endpoints-representative-api-overlay.yaml
+- type: DeveloperPortal
+  url: https://modal.com/docs
+- type: APIReference
+  url: https://modal.com/docs/sdk/py/latest
+- type: GettingStarted
+  url: https://modal.com/docs/examples/hello_world
+- type: Playground
+  url: https://modal.com/playground
+- type: Pricing
+  url: https://modal.com/pricing
+- type: SignUp
+  url: https://modal.com/signup
+- type: Login
+  url: https://modal.com/login
+- type: TermsOfService
+  url: https://modal.com/legal/terms
+- type: PrivacyPolicy
+  url: https://modal.com/legal/privacy-policy
+- type: Support
+  url: https://modal.com/slack
+x-enrichment:
+  date: '2026-09-18'
+  status: enriched
+  artifacts_added: 21
+  pass: local-v3
 maintainers:
 - FN: Kin Lane
   email: kin@apievangelist.com
