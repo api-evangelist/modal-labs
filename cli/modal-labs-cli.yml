@@ -1,0 +1,144 @@
+generated: '2026-09-18'
+method: searched
+source: https://modal.com/docs/cli/latest/intro
+provider: Modal
+providerId: modal-labs
+name: modal
+description: >-
+  The `modal` CLI is Modal's primary operational entry point. It ships inside the
+  Python SDK (`pip install modal` installs the binary) and speaks the same gRPC
+  control plane the SDKs use — there is no REST layer beneath it. It covers the
+  full resource surface (apps, containers, volumes, secrets, dicts, queues,
+  images, environments, workspaces) plus deploy/run/serve/shell flows and, newer,
+  billing reporting and agent-skill installation.
+docs: https://modal.com/docs/cli/latest/intro
+install:
+- method: pip
+  command: pip install modal
+  note: The CLI is a console script inside the `modal` PyPI distribution.
+- method: setup
+  command: modal setup
+  note: Authenticates the CLI and writes a token to ~/.modal.toml.
+commands:
+- name: modal setup
+  group: auth
+  docs: https://modal.com/docs/cli/latest/setup
+  description: Authenticate the CLI against a Modal workspace.
+- name: modal token
+  group: auth
+  docs: https://modal.com/docs/cli/latest/token
+  description: Create and manage API tokens (token id + token secret).
+- name: modal profile
+  group: auth
+  docs: https://modal.com/docs/cli/latest/profile
+  description: Switch between named local profiles.
+- name: modal config
+  group: auth
+  docs: https://modal.com/docs/cli/latest/config
+  description: Inspect and set CLI configuration.
+- name: modal run
+  group: execution
+  docs: https://modal.com/docs/cli/latest/run
+  description: Run a Modal function ephemerally from a local file.
+- name: modal deploy
+  group: execution
+  docs: https://modal.com/docs/cli/latest/deploy
+  description: Deploy an App so its functions persist and can be looked up.
+- name: modal serve
+  group: execution
+  docs: https://modal.com/docs/cli/latest/serve
+  description: Serve an App with hot reload for local development.
+- name: modal shell
+  group: execution
+  docs: https://modal.com/docs/cli/latest/shell
+  description: Open an interactive shell in a container matching a function's image.
+- name: modal curl
+  group: execution
+  docs: https://modal.com/docs/cli/latest/curl
+  description: >-
+    Call an authenticated Modal endpoint without hand-setting proxy token
+    headers. Documented as experimental.
+- name: modal app
+  group: resources
+  docs: https://modal.com/docs/cli/latest/app
+  description: >-
+    List, stop, roll back, roll over and inspect deployment history for Apps.
+- name: modal container
+  group: resources
+  docs: https://modal.com/docs/cli/latest/container
+  description: List, log, exec into and stop running containers.
+- name: modal endpoint
+  group: resources
+  docs: https://modal.com/docs/cli/latest/endpoint
+  description: Deploy and manage Modal Endpoints (managed LLM inference servers).
+- name: modal image
+  group: resources
+  docs: https://modal.com/docs/cli/latest/image
+  description: List, inspect, log and delete container images.
+- name: modal volume
+  group: resources
+  docs: https://modal.com/docs/cli/latest/volume
+  description: Create, list, put/get files on and delete Volumes.
+- name: modal secret
+  group: resources
+  docs: https://modal.com/docs/cli/latest/secret
+  description: Create, list and delete Secrets.
+- name: modal dict
+  group: resources
+  docs: https://modal.com/docs/cli/latest/dict
+  description: Create, list, inspect and delete Dicts.
+- name: modal queue
+  group: resources
+  docs: https://modal.com/docs/cli/latest/queue
+  description: Create, list, peek and delete Queues.
+- name: modal environment
+  group: workspace
+  docs: https://modal.com/docs/cli/latest/environment
+  description: Manage environments, their RBAC roles and environment-scoped billing.
+- name: modal workspace
+  group: workspace
+  docs: https://modal.com/docs/cli/latest/workspace
+  description: Manage workspace members, settings and proxy tokens.
+- name: modal billing
+  group: workspace
+  docs: https://modal.com/docs/cli/latest/billing
+  description: Report workspace spend, credit usage and current pricing rates.
+- name: modal dashboard
+  group: workspace
+  docs: https://modal.com/docs/cli/latest/dashboard
+  description: Open the web dashboard for the current workspace or App.
+- name: modal skills
+  group: agents
+  docs: https://modal.com/docs/cli/latest/skills
+  description: >-
+    Install, show and update Modal's published agent skills into .agents/ or
+    .claude/. This is Modal's first-party agent-onboarding surface.
+- name: modal changelog
+  group: meta
+  docs: https://modal.com/docs/cli/latest/changelog
+  description: Print the SDK/CLI release notes from the terminal.
+- name: modal bootstrap
+  group: meta
+  docs: https://modal.com/docs/cli/latest/bootstrap
+  description: Scaffold a new Modal project.
+key_flows:
+- name: First deploy
+  steps:
+  - pip install modal
+  - modal setup
+  - modal run my_script.py
+  - modal deploy my_script.py
+- name: Roll back a bad deploy
+  steps:
+  - modal app history my-app
+  - modal app rollback my-app v3
+  note: >-
+    The App must currently be in a "deployed" state; the rollback itself appears
+    as a new deployment in the App history.
+- name: Onboard a coding agent
+  steps:
+  - modal skills install --claude
+  - modal skills update
+maintainers:
+- FN: Kin Lane
+  email: kin@apievangelist.com

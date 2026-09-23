@@ -1,0 +1,32 @@
+{
+  "issuer": "https://oidc.modal.com",
+  "jwks_uri": "https://oidc.modal.com/.well-known/jwks.json",
+  "subject_types_supported": [
+    "public"
+  ],
+  "response_types_supported": [
+    "id_token"
+  ],
+  "id_token_signing_alg_values_supported": [
+    "RS256"
+  ],
+  "scopes_supported": [
+    "openid"
+  ],
+  "claims_supported": [
+    "sub",
+    "aud",
+    "exp",
+    "iat",
+    "iss",
+    "jti",
+    "workspace_id",
+    "environment_id",
+    "environment_name",
+    "app_id",
+    "app_name",
+    "function_id",
+    "function_name",
+    "container_id"
+  ]
+}

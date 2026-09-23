@@ -1,0 +1,240 @@
+generated: '2026-09-18'
+method: searched
+source: https://modal.com/docs/sdk/py/latest/exception
+provider: Modal
+providerId: modal-labs
+format: python-exception-registry
+description: >-
+  Modal's error contract is a published Python exception hierarchy, not an HTTP
+  problem catalogue. This is the non-payments sibling of a decline-code
+  reference: the `modal.exception` module is a named, documented registry of 49
+  error classes with one-line meanings, 11 of which carry the
+  _GRPCErrorWrapper mixin and therefore map directly onto a gRPC status returned
+  by the control plane. An agent driving Modal through the SDK catches these
+  names; it will never see an application/problem+json body.
+envelope:
+  style: gRPC status code + message, surfaced as a typed Python exception
+  problem_json: false
+  problem_json_note: >-
+    RFC 9457 does not apply — there is no REST surface on the control plane. On a
+    deployed *.modal.run endpoint the error body is whatever the developer's own
+    framework emits; Modal's edge proxy contributes only a plain-text 401 for
+    missing proxy credentials.
+  http_codes_seen:
+  - code: 401
+    surface: '*.modal.run'
+    body: 'modal-http: missing credentials for proxy authorization'
+    source: https://modal.com/docs/guide/webhook-proxy-auth
+  - code: 413
+    surface: control plane
+    meaning: Content Too Large — request payload exceeds the limit.
+    source: https://modal.com/docs/guide/troubleshooting
+base_class: modal.exception.Error
+grpc_mapped_count: 11
+error_count: 49
+notes: >-
+  Titles are quoted verbatim from the reference docs. A blank title means the
+  class is published without a docstring; it is recorded rather than invented.
+errors:
+- id: AlreadyExistsError
+  grpc_mapped: true
+  inherits: modal.exception.Error, modal.exception._GRPCErrorWrapper
+  title: Raised when a resource creation conflicts with an existing resource.
+- id: AsyncUsageWarning
+  grpc_mapped: false
+  inherits: UserWarning
+  title: Warning emitted when a blocking Modal interface is used in an async context.
+- id: AuthError
+  grpc_mapped: true
+  inherits: modal.exception.Error, modal.exception._GRPCErrorWrapper
+  title: Raised when a client has missing or invalid authentication.
+- id: ClientClosed
+  grpc_mapped: false
+  inherits: modal.exception.Error
+  title: ''
+- id: ConflictError
+  grpc_mapped: true
+  inherits: modal.exception.InvalidError, modal.exception._GRPCErrorWrapper
+  title: Raised when a resource conflict occurs between the request and current system state.
+- id: ConnectionError
+  grpc_mapped: false
+  inherits: modal.exception.Error
+  title: Raised when an issue occurs while connecting to the Modal servers.
+- id: DataLossError
+  grpc_mapped: true
+  inherits: modal.exception.Error, modal.exception._GRPCErrorWrapper
+  title: Raised when data is lost or corrupted.
+- id: DeprecationError
+  grpc_mapped: false
+  inherits: UserWarning
+  title: UserWarning category emitted when a deprecated Modal feature or API is used.
+- id: DeserializationError
+  grpc_mapped: false
+  inherits: modal.exception.Error
+  title: Raised to provide more context when an error is encountered during deserialization.
+- id: Error
+  grpc_mapped: false
+  inherits: Exception
+  title: Base class for all Modal errors. See [`modal.exception`](https://modal.com/docs/sdk/py/latest/exception)
+    for the specialized error classes.
+- id: ExecTimeoutError
+  grpc_mapped: false
+  inherits: modal.exception.TimeoutError
+  title: Raised when a container process exceeds its execution duration limit and times out.
+- id: ExecutionError
+  grpc_mapped: false
+  inherits: modal.exception.Error
+  title: Raised when something unexpected happened during runtime.
+- id: FilesystemExecutionError
+  grpc_mapped: false
+  inherits: modal.exception.Error
+  title: Raised when an unknown error is thrown during a container filesystem operation.
+- id: FunctionTimeoutError
+  grpc_mapped: false
+  inherits: modal.exception.TimeoutError
+  title: Raised when a Function exceeds its execution duration limit and times out.
+- id: ImageBuildError
+  grpc_mapped: false
+  inherits: modal.exception.RemoteError
+  title: Raised when an Image build fails.
+- id: InputCancellation
+  grpc_mapped: false
+  inherits: BaseException
+  title: Raised when the current input is cancelled by the task
+- id: InteractiveTimeoutError
+  grpc_mapped: false
+  inherits: modal.exception.TimeoutError
+  title: Raised when interactive frontends time out while trying to connect to a container.
+- id: InternalError
+  grpc_mapped: true
+  inherits: modal.exception.Error, modal.exception._GRPCErrorWrapper
+  title: Raised when an internal error occurs in the Modal system.
+- id: InternalFailure
+  grpc_mapped: false
+  inherits: modal.exception.Error
+  title: Retriable internal error.
+- id: InvalidError
+  grpc_mapped: true
+  inherits: modal.exception.Error, modal.exception._GRPCErrorWrapper
+  title: Raised when user does something invalid.
+- id: LogsFetchError
+  grpc_mapped: false
+  inherits: modal.exception.Error
+  title: Raised when trying to fetch too many logs.
+- id: ModuleNotMountable
+  grpc_mapped: false
+  inherits: Exception
+  title: ''
+- id: MountUploadTimeoutError
+  grpc_mapped: false
+  inherits: modal.exception.TimeoutError
+  title: Raised when a Mount upload times out.
+- id: NotFoundError
+  grpc_mapped: true
+  inherits: modal.exception.Error, modal.exception._GRPCErrorWrapper
+  title: Raised when a requested resource was not found.
+- id: OutputExpiredError
+  grpc_mapped: false
+  inherits: modal.exception.TimeoutError
+  title: Raised when the Output exceeds expiration and times out.
+- id: PermissionDeniedError
+  grpc_mapped: true
+  inherits: modal.exception.Error, modal.exception._GRPCErrorWrapper
+  title: Raised when a user does not have permission to perform the requested operation.
+- id: RemoteError
+  grpc_mapped: false
+  inherits: modal.exception.Error
+  title: Raised when an error occurs on the Modal server.
+- id: RequestSizeError
+  grpc_mapped: false
+  inherits: modal.exception.Error
+  title: Raised when an operation produces a gRPC request that is rejected by the server for being too
+    large.
+- id: ResourceExhaustedError
+  grpc_mapped: true
+  inherits: modal.exception.Error, modal.exception._GRPCErrorWrapper
+  title: Raised when a server-side resource has been exhausted, e.g. a quota or rate limit.
+- id: SandboxFilesystemDirectoryNotEmptyError
+  grpc_mapped: false
+  inherits: modal.exception.SandboxFilesystemError
+  title: Raised when a directory is not empty.
+- id: SandboxFilesystemError
+  grpc_mapped: false
+  inherits: modal.exception.Error
+  title: Base class for sandbox filesystem errors.
+- id: SandboxFilesystemFileTooLargeError
+  grpc_mapped: false
+  inherits: modal.exception.SandboxFilesystemError
+  title: Raised when a file exceeds the maximum allowed size for a read operation in the sandbox.
+- id: SandboxFilesystemIsADirectoryError
+  grpc_mapped: false
+  inherits: modal.exception.SandboxFilesystemError
+  title: Raised when a file operation in the sandbox targets a directory when it should target a non-directory
+    file.
+- id: SandboxFilesystemNotADirectoryError
+  grpc_mapped: false
+  inherits: modal.exception.SandboxFilesystemError
+  title: Raised when a path component in the sandbox is not a directory.
+- id: SandboxFilesystemNotFoundError
+  grpc_mapped: false
+  inherits: modal.exception.SandboxFilesystemError
+  title: Raised when a file or directory is not found in the sandbox.
+- id: SandboxFilesystemPathAlreadyExistsError
+  grpc_mapped: false
+  inherits: modal.exception.SandboxFilesystemError
+  title: Raised when a path already exists and the operation requires it to be absent.
+- id: SandboxFilesystemPermissionError
+  grpc_mapped: false
+  inherits: modal.exception.SandboxFilesystemError
+  title: Raised when permission is denied for a file operation in the sandbox.
+- id: SandboxTerminatedError
+  grpc_mapped: false
+  inherits: modal.exception.Error
+  title: Raised when a Sandbox is terminated for an internal reason.
+- id: SandboxTimeoutError
+  grpc_mapped: false
+  inherits: modal.exception.TimeoutError
+  title: Raised when a Sandbox exceeds its execution duration limit and times out.
+- id: SerializationError
+  grpc_mapped: false
+  inherits: modal.exception.Error
+  title: Raised to provide more context when an error is encountered during serialization.
+- id: ServerWarning
+  grpc_mapped: false
+  inherits: UserWarning
+  title: Warning originating from the Modal server and re-issued in client code.
+- id: ServiceError
+  grpc_mapped: true
+  inherits: modal.exception.Error, modal.exception._GRPCErrorWrapper
+  title: Raised when an error occurs in basic client/server communication.
+- id: SnapshotCreationError
+  grpc_mapped: false
+  inherits: modal.exception.Error
+  title: Raised when a Sandbox fails to create an exit snapshot.
+- id: TimeoutError
+  grpc_mapped: false
+  inherits: modal.exception.Error
+  title: Base class for Modal timeouts.
+- id: UnimplementedError
+  grpc_mapped: true
+  inherits: modal.exception.Error, modal.exception._GRPCErrorWrapper
+  title: Raised when a requested operation is not implemented or not supported.
+- id: VersionError
+  grpc_mapped: false
+  inherits: modal.exception.Error
+  title: Raised when the current client version of Modal is unsupported.
+- id: VolumeUploadTimeoutError
+  grpc_mapped: false
+  inherits: modal.exception.TimeoutError
+  title: Raised when a Volume upload times out.
+- id: WorkspaceManagementError
+  grpc_mapped: false
+  inherits: modal.exception.Error
+  title: Raised when an error occurs while managing a workspace.
+- id: simulate_preemption
+  grpc_mapped: false
+  inherits: ''
+  title: ''
+maintainers:
+- FN: Kin Lane
+  email: kin@apievangelist.com

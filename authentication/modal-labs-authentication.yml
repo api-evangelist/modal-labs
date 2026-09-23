@@ -1,0 +1,125 @@
+generated: '2026-09-18'
+method: searched
+source: https://modal.com/docs/guide/webhook-proxy-auth + https://modal.com/docs/guide/webhooks + https://modal.com/docs/cli/latest/token + grpc/modal-labs-api.proto
+provider: Modal
+providerId: modal-labs
+description: >-
+  Modal has THREE distinct authentication surfaces and they are easy to confuse.
+  (1) The control plane — the gRPC API the SDKs and CLI speak — authenticates
+  with a token id + token secret pair created by `modal token new` and stored in
+  ~/.modal.toml. (2) Deployed web endpoints on *.modal.run authenticate INBOUND
+  callers with Proxy Tokens presented as Modal-Key and Modal-Secret headers,
+  enforced by Modal's edge proxy before the request reaches the container.
+  (3) Modal signs OUTBOUND OIDC identity tokens so a running Function can prove
+  who it is to an external service — Modal is the issuer there, not the verifier.
+  There is no OAuth authorization-code flow and no user-facing OAuth scope
+  surface, so scopes/ is deliberately absent.
+schemes:
+- id: control-plane-token
+  type: apiKey
+  surface: gRPC control plane (api.modal.com)
+  credential: token id + token secret
+  transport: gRPC request metadata
+  proto_evidence: >-
+    token_id / token_secret fields on the client authentication messages in
+    grpc/modal-labs-api.proto.
+  created_by: modal token new
+  stored_at: ~/.modal.toml
+  env_vars:
+  - MODAL_TOKEN_ID
+  - MODAL_TOKEN_SECRET
+  docs: https://modal.com/docs/cli/latest/token
+  rotation: >-
+    Tokens are created and revoked via the CLI and the dashboard; multiple named
+    profiles can hold separate token pairs.
+- id: proxy-token
+  type: apiKey
+  surface: deployed web endpoints and Servers on *.modal.run
+  credential: Proxy Token (key + secret)
+  transport: HTTP request headers
+  headers:
+  - Modal-Key
+  - Modal-Secret
+  enforced_by: >-
+    Modal's edge proxy — an unauthenticated request is rejected with HTTP 401 and
+    the body "modal-http: missing credentials for proxy authorization" before any
+    user code runs.
+  defaults:
+  - surface: Endpoints and Servers
+    authenticated_by_default: true
+    opt_out: --unauthenticated on `modal endpoint create`, or unauthenticated=True on @app.server()
+  - surface: Web Functions (@modal.fastapi_endpoint / asgi_app / wsgi_app / web_server)
+    authenticated_by_default: false
+    opt_in: requires_proxy_auth=True
+  managed_by:
+  - https://modal.com/settings/proxy-auth-tokens
+  - modal workspace proxy-tokens
+  client_helper: >-
+    `modal curl` calls an authenticated endpoint without hand-setting the headers.
+  docs: https://modal.com/docs/guide/webhook-proxy-auth
+- id: oidc-workload-identity
+  type: openIdConnect
+  direction: outbound
+  surface: Modal Functions and Sandboxes authenticating to external services
+  discovery: https://oidc.modal.com/.well-known/openid-configuration
+  jwks: https://oidc.modal.com/.well-known/jwks.json
+  issuer: https://oidc.modal.com
+  audience: oidc.modal.com
+  algorithm: RS256
+  scopes_supported:
+  - openid
+  claims:
+  - sub
+  - aud
+  - exp
+  - iat
+  - iss
+  - jti
+  - workspace_id
+  - environment_id
+  - environment_name
+  - app_id
+  - app_name
+  - function_id
+  - function_name
+  - container_id
+  delivery: >-
+    Injected into the container as the MODAL_IDENTITY_TOKEN environment variable.
+    Sandboxes must opt in with include_oidc_identity_token=True.
+  docs: https://modal.com/docs/guide/oidc-integration
+- id: user-defined-endpoint-auth
+  type: http
+  surface: inside a developer's own web endpoint
+  note: >-
+    Documented pattern, not a Modal-enforced scheme — a developer validates a
+    Bearer token in their own FastAPI handler against a value held in a
+    modal.Secret. Recorded because the docs teach it, but the credential and its
+    lifecycle belong to the developer, not to Modal.
+  docs: https://modal.com/docs/guide/webhooks
+enterprise_identity:
+  sso:
+  - name: Okta SSO
+    url: https://modal.com/docs/guide/okta-sso
+  - name: Microsoft Entra SSO
+    url: https://modal.com/docs/guide/entra-sso
+  - name: Custom SAML SSO
+    url: https://modal.com/docs/guide/saml-sso
+  provisioning:
+    standard: SCIM 2.0
+    base_url_shape: https://modal.com/api/<your-workspace>/scim/v2
+    status: Beta
+    url: https://modal.com/docs/guide/scim
+  authorization:
+    model: RBAC
+    url: https://modal.com/docs/guide/rbac
+    note: >-
+      Roles are represented per Environment; service users and user groups are
+      separate first-class principals.
+oauth_scopes: false
+oauth_scopes_note: >-
+  No OAuth authorization server and no user-consent flow exist, so there is no
+  scope surface to document. scopes/ is intentionally not written — see the
+  "scopes/ is OAuth-only" rule in the pipeline contract.
+maintainers:
+- FN: Kin Lane
+  email: kin@apievangelist.com

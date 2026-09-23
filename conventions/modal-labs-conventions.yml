@@ -1,0 +1,198 @@
+generated: '2026-09-18'
+method: searched
+source: https://modal.com/docs/guide/security + https://modal.com/docs/guide/sandbox-snapshots + https://modal.com/docs/cli/latest/app + https://modal.com/docs/guide/webhook-proxy-auth + grpc/modal-labs-api.proto
+provider: Modal
+providerId: modal-labs
+description: >-
+  Cross-cutting runtime semantics for Modal. The load-bearing fact for an agent
+  is that Modal's surface is a gRPC control plane driven by SDKs and a CLI, not
+  an HTTP resource API — so several conventions an agent normally looks for
+  (Idempotency-Key headers, RFC 9457 error bodies, RateLimit-* response headers,
+  page tokens) simply do not exist, while the guarantees they usually provide
+  are delivered a different way. Where that is the case it is recorded as such
+  rather than left blank, because "absent" and "not applicable" are different
+  facts.
+auth:
+  style: token pair (id + secret)
+  control_plane: gRPC metadata, token_id + token_secret
+  ingress: Modal-Key and Modal-Secret headers on *.modal.run, enforced at the edge proxy
+  detail: authentication/modal-labs-authentication.yml
+idempotency:
+  supported: true
+  coverage: partial
+  mechanism: >-
+    Resource-level idempotent creation, not request-level replay protection.
+    Ten RPCs follow a *GetOrCreate contract that returns the existing object
+    instead of erroring or duplicating, making the create path safe to retry.
+    There is NO Idempotency-Key header, and no client-supplied request token, so
+    a retried mutation on any other write is NOT deduplicated.
+  header: null
+  scope:
+  - AppGetOrCreate
+  - DictGetOrCreate
+  - EnvironmentGetOrCreate
+  - ImageGetOrCreate
+  - MountGetOrCreate
+  - ProxyGetOrCreate
+  - QueueGetOrCreate
+  - SecretGetOrCreate
+  - SharedVolumeGetOrCreate
+  - VolumeGetOrCreate
+  - VolumePutFiles2
+  retention: not applicable — no idempotency key is stored
+  evidence: >-
+    grpc/modal-labs-api.proto: the ten *GetOrCreate RPCs on service ModalClient,
+    plus VolumePutFiles2Response, whose empty missing_blocks field means "the
+    files were uploaded successfully and/or the request was an idempotent no-op".
+  agent_note: >-
+    An agent may safely retry a GetOrCreate. It must NOT blindly retry
+    FunctionCall invocation, VolumeRemoveFile, or any *Delete — those have no
+    replay guard. Use AttemptRetry / AttemptAwait for invocation retries, which
+    is Modal's own retry channel for function attempts.
+reversibility:
+  grade: verified
+  summary: >-
+    Modal publishes reversal operations for its two highest-consequence write
+    paths — deploying an App and mutating a Sandbox — and states a window for
+    each. Deletes of Secrets, Volumes, Dicts and Queues are NOT reversible and
+    are recorded here as such.
+  surfaces:
+  - write: Deploy an App
+    operation: AppDeploy
+    reversal: AppRollback
+    cli: modal app rollback <app> [version]
+    window: >-
+      Bounded by the App's retained deployment history, not by a clock — any
+      previous version still listed in `modal app history` can be restored. The
+      App must currently be in a "deployed" state.
+    window_stated: true
+    docs: https://modal.com/docs/cli/latest/app
+    note: >-
+      The rollback itself appears as a NEW deployment in the App history; state
+      is reset to the earlier deployment rather than the history being rewritten.
+      A --strategy of rolling or recreate controls container replacement.
+  - write: Roll an App's containers without a code change
+    operation: AppRollover
+    reversal: AppRollback
+    cli: modal app rollover <app>
+    window: same deployment-history bound as rollback
+    window_stated: true
+    docs: https://modal.com/docs/cli/latest/app
+  - write: Mutate a Sandbox filesystem
+    operation: Sandbox filesystem writes
+    reversal: SandboxRestore from a Filesystem or Directory Snapshot
+    window: >-
+      30 days after snapshot creation by default. Configurable via the ttl
+      parameter on snapshot_filesystem() / snapshot_directory(), including
+      ttl=None to retain indefinitely.
+    window_stated: true
+    docs: https://modal.com/docs/guide/sandbox-snapshots
+    note: >-
+      Breaking change in Python v1.5 / Go+JS v0.8.0 — Filesystem Snapshots
+      previously persisted indefinitely and now default to a 30-day TTL. Code
+      written before that change can lose a restore path it used to have.
+  - write: Mutate Sandbox memory state
+    operation: Sandbox memory snapshot
+    reversal: SandboxRestore from a Memory Snapshot
+    window: >-
+      7 days after creation. Explicitly "cannot currently be extended".
+    window_stated: true
+    docs: https://modal.com/docs/guide/sandbox-snapshots
+  - write: Start a function call
+    operation: FunctionCall invocation (.remote / .spawn / .map)
+    reversal: FunctionCallCancel
+    window: while the call is still running
+    window_stated: true
+    docs: https://modal.com/docs/sdk/py/latest/FunctionCall
+  - write: Run a container
+    operation: container start
+    reversal: ContainerStop (--graceful finishes in-flight inputs)
+    window: while the container is running
+    window_stated: true
+    docs: https://modal.com/docs/cli/latest/container
+  irreversible:
+  - operation: SecretDelete
+    note: No undelete path is documented.
+  - operation: VolumeDelete
+    note: >-
+      No undelete path. Files in a Volume are documented as "persistent until you
+      delete them" — the deletion is the terminal event.
+  - operation: DictDelete
+    note: No undelete path.
+  - operation: QueueDelete
+    note: No undelete path.
+  - operation: EnvironmentDelete
+    note: No undelete path.
+  - operation: AppStop
+    note: >-
+      Documented as "Permanently stop an App and terminate its running
+      containers." Redeploying is a new deployment, not a reversal.
+  - operation: SandboxTerminate
+    note: >-
+      Terminal for the Sandbox. Only state captured in a snapshot beforehand
+      survives.
+dry_run_mode:
+  supported: false
+  note: >-
+    No documented dry-run, preview or validation-only mode on any write. `modal
+    serve` gives a hot-reload development loop, which is a rehearsal environment
+    rather than a no-op flag on a production mutation.
+pagination:
+  style: none-documented
+  note: >-
+    List RPCs in grpc/modal-labs-api.proto do not declare a uniform page-token or
+    cursor convention, and no pagination convention is documented for the SDKs.
+field_expansion:
+  supported: false
+metadata:
+  supported: true
+  mechanism: >-
+    Apps carry user-settable tags (AppSetTags / AppGetTags); Functions and
+    Sandboxes carry Modal-assigned identifiers surfaced in the OIDC token claims.
+request_id_tracing:
+  supported: true
+  mechanism: >-
+    Every object is addressable by a prefixed identifier (ap- for Apps, ta- for
+    containers/tasks) which appears in CLI output, logs and the OIDC sub claim.
+  integrations:
+  - name: Datadog
+    url: https://modal.com/docs/guide/datadog-integration
+  - name: OpenTelemetry
+    url: https://modal.com/docs/guide/otel-integration
+  note: >-
+    There is no per-request X-Request-Id header convention on *.modal.run — an
+    endpoint's request correlation is whatever the developer's own framework
+    emits.
+versioning:
+  style: SDK semver
+  detail: lifecycle/modal-labs-lifecycle.yml
+error_envelope:
+  style: gRPC status
+  http_surface: >-
+    On *.modal.run, ordinary HTTP status codes. Modal's edge proxy returns 401
+    with a plain-text body ("modal-http: missing credentials for proxy
+    authorization") when proxy auth is missing; everything else is whatever the
+    developer's own application returns.
+  problem_json: false
+  detail: errors/modal-labs-problem-types.yml
+rate_limit_signaling:
+  headers: none
+  status_on_exhaustion: null
+  note: >-
+    Modal governs usage by CONCURRENCY (concurrent containers and concurrent
+    GPUs, per workspace tier), not by requests per minute, so there are no
+    RateLimit-* response headers and no documented 429 on the control plane. An
+    agent cannot read a remaining-quota signal off a response; it reads
+    concurrency limits off the plan.
+  detail: rate-limits/modal-labs-rate-limits.yml
+retries:
+  mechanism: >-
+    First-class and declarative — modal.Retries passed to @app.function, plus
+    AttemptStart / AttemptRetry / AttemptAwait RPCs on the control plane.
+  docs: https://modal.com/docs/guide/retries
+  note: >-
+    This is the correct retry channel for an agent, and it is safer than
+    re-issuing an invocation by hand.
+maintainers:
+- FN: Kin Lane
+  email: kin@apievangelist.com

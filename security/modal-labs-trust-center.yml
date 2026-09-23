@@ -1,0 +1,74 @@
+generated: '2026-09-18'
+method: searched
+source: https://modal.com/docs/guide/security + https://trust.modal.com/
+provider: Modal
+providerId: modal-labs
+description: >-
+  Modal runs a Vanta-hosted security portal at trust.modal.com where the SOC 2
+  Type 2 report is requested under NDA, and documents its compliance posture in
+  the public docs. The portal itself is a client-rendered SPA — every
+  certification recorded here is read from Modal's own first-party
+  documentation, not scraped from the portal.
+url: https://trust.modal.com/
+platform: Vanta
+platform_evidence: >-
+  content-location header resolves to
+  assets.vanta.com/static/index-trust-report.<hash>.html; probed 2026-09-18, HTTP 200.
+access: >-
+  Report access is gated — "Go to our Security Portal to request access to the
+  report."
+certifications:
+- name: SOC 2 Type 2
+  status: achieved
+  evidence: >-
+    "We have successfully completed a System and Organization Controls (SOC) 2
+    Type 2 audit."
+  report_url: https://trust.modal.com/
+  announcement: https://modal.com/blog/soc2type2
+  public_report: false
+- name: HIPAA
+  status: supported-via-BAA
+  evidence: >-
+    "Modal's services can be used in a HIPAA compliant manner... To use Modal
+    services for HIPAA-compliant workloads, a Business Associate Agreement (BAA)
+    should be established with us prior to submission of any PHI. This is
+    available on our Enterprise plan."
+  note: >-
+    Modal is explicit that there is no official HIPAA certification and that
+    scope is partial: Volumes v1, Images (excluding Filesystem and Directory
+    Snapshots), Memory Snapshots and user code are OUT of BAA scope. Volumes v2
+    are in scope.
+  url: https://modal.com/docs/guide/security
+- name: PCI DSS
+  status: not-applicable
+  evidence: >-
+    Modal does not store or process credit card information; card handling is
+    delegated to Stripe, which is certified as a PCI Level 1 Service Provider.
+  url: https://modal.com/docs/guide/security
+programs:
+- name: Audit logs
+  url: https://modal.com/docs/guide/audit-logs
+  note: Workspace audit logs, Enterprise plan.
+- name: Data residency
+  url: https://modal.com/docs/guide/data-residency
+- name: Customer-supplied encryption keys
+  url: https://modal.com/docs/guide/customer-supplied-encryption-keys
+  status: Alpha
+- name: Role-Based Access Control
+  url: https://modal.com/docs/guide/rbac
+- name: SSO
+  url: https://modal.com/docs/guide/okta-sso
+  note: Okta, Microsoft Entra and custom SAML SSO are documented separately.
+data_handling:
+  zero_data_retention_surface: >-
+    Modal Inference endpoints are documented as zero data retention — request and
+    response payloads are never written to disk.
+  function_io_retention: Up to 7 days, encrypted at rest, then deleted.
+  log_retention: 1 day (Starter), 30 days (Team), configurable (Enterprise).
+  commitment: >-
+    "Modal will never access or use: your source code; the inputs or outputs to
+    your Modal Functions; any data you store in Modal, such as in Images or
+    Volumes."
+maintainers:
+- FN: Kin Lane
+  email: kin@apievangelist.com

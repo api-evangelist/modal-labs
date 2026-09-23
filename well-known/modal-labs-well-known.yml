@@ -1,0 +1,109 @@
+generated: '2026-09-18'
+method: probed
+source: live HTTPS probes of every host in apis.yml plus oidc.modal.com, named in Modal's own OIDC integration guide
+description: >-
+  Modal serves no /.well-known documents on its primary domain. It DOES serve a
+  real OpenID Connect discovery document — and the JWKS it points at — on a
+  third host, oidc.modal.com, which is named only inside the OIDC integration
+  guide (https://modal.com/docs/guide/oidc-integration). Probing modal.com alone
+  would have scored this provider zero on a document it genuinely publishes.
+notes: >-
+  api.modal.com answers HTTP 200 with content-type application/grpc and a
+  zero-byte body on EVERY path, /.well-known/* included. That is a gRPC
+  catch-all, not a document — every such row is recorded as a miss.
+  modal.com returns a 404 status with a 57KB SPA shell for every /.well-known
+  path. oidc.modal.com is fronted by S3 and returns 403 AccessDenied for any
+  key that does not exist, which is its way of saying 404.
+hosts:
+- host: oidc.modal.com
+  documents:
+  - path: /.well-known/openid-configuration
+    status: 200
+    content_type: application/json
+    file: modal-labs-oidc-openid-configuration.json
+    note: >-
+      Real OIDC discovery document. issuer https://oidc.modal.com, RS256 id_token
+      signing, scopes_supported [openid], and Modal-specific claims
+      (workspace_id, environment_name, app_name, function_name, container_id)
+      that identify the calling Modal Function to an external service.
+  - path: /.well-known/jwks.json
+    status: 200
+    content_type: application/json
+    file: modal-labs-oidc-jwks.json
+    note: Signing keys referenced by jwks_uri in the discovery document.
+  - path: /.well-known/oauth-authorization-server
+    status: 403
+  - path: /.well-known/oauth-protected-resource
+    status: 403
+  - path: /.well-known/security.txt
+    status: 403
+  - path: /.well-known/api-catalog
+    status: 403
+  - path: /.well-known/agent-card.json
+    status: 403
+  - path: /.well-known/agent.json
+    status: 403
+- host: modal.com
+  documents:
+  - path: /.well-known/security.txt
+    status: 404
+  - path: /.well-known/openid-configuration
+    status: 404
+  - path: /.well-known/oauth-authorization-server
+    status: 404
+  - path: /.well-known/oauth-protected-resource
+    status: 404
+  - path: /.well-known/api-catalog
+    status: 404
+  - path: /.well-known/ai-plugin.json
+    status: 404
+  - path: /.well-known/agent-card.json
+    status: 404
+  - path: /.well-known/agent.json
+    status: 404
+  - path: /.well-known/aauth-resource.json
+    status: 404
+- host: www.modal.com
+  documents:
+  - path: /.well-known/security.txt
+    status: 404
+  - path: /.well-known/openid-configuration
+    status: 404
+  - path: /.well-known/oauth-authorization-server
+    status: 404
+  - path: /.well-known/api-catalog
+    status: 404
+  - path: /.well-known/ai-plugin.json
+    status: 404
+  - path: /.well-known/agent-card.json
+    status: 404
+  - path: /.well-known/agent.json
+    status: 404
+- host: api.modal.com
+  documents:
+  - path: /.well-known/security.txt
+    status: 200
+    note: >-
+      NOT a document. content-type application/grpc, zero bytes. api.modal.com
+      is a pure gRPC endpoint and answers every path this way. Treated as a miss.
+  - path: /.well-known/openid-configuration
+    status: 200
+    note: gRPC catch-all, zero-byte body. Treated as a miss.
+  - path: /.well-known/oauth-authorization-server
+    status: 200
+    note: gRPC catch-all, zero-byte body. Treated as a miss.
+  - path: /.well-known/api-catalog
+    status: 200
+    note: gRPC catch-all, zero-byte body. Treated as a miss.
+  - path: /.well-known/ai-plugin.json
+    status: 200
+    note: gRPC catch-all, zero-byte body. Treated as a miss.
+  - path: /.well-known/agent-card.json
+    status: 200
+    note: gRPC catch-all, zero-byte body. Treated as a miss.
+  - path: /.well-known/agent.json
+    status: 200
+    note: gRPC catch-all, zero-byte body. Treated as a miss.
+maintainers:
+- FN: Kin Lane
+  email: kin@apievangelist.com

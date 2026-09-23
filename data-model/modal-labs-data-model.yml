@@ -1,0 +1,241 @@
+generated: '2026-09-18'
+method: derived
+source: grpc/modal-labs-api.proto
+provider: Modal
+providerId: modal-labs
+description: >-
+  Entity-relationship graph for Modal's control plane, derived from the 251 RPCs
+  and 570 messages in the first-party api.proto rather than from an OpenAPI —
+  there is no REST spec to derive from. Entity boundaries are taken from RPC name
+  prefixes; relationships are read from the id fields the request/response
+  messages carry. Counts are RPCs per entity.
+derived_from:
+  file: grpc/modal-labs-api.proto
+  service: modal.client.ModalClient
+  rpcs: 251
+  messages: 570
+  companion:
+    file: grpc/modal-labs-task-command-router.proto
+    service: modal.task_command_router.TaskCommandRouter
+    rpcs: 23
+id_prefixes:
+- prefix: ap-
+  entity: App
+  evidence: 'modal app rollback ap-abcdefghABCDEFGH123456 (https://modal.com/docs/cli/latest/app)'
+- prefix: ta-
+  entity: Task / Container
+  evidence: >-
+    container_id in the OIDC sub claim, e.g. container_id:ta-12345abcd
+    (https://modal.com/docs/guide/oidc-integration)
+- prefix: ac-
+  entity: Workspace
+  evidence: 'workspace_id:ac-12345abcd in the OIDC sub claim'
+entities:
+- name: Workspace
+  rpcs: 10
+  description: >-
+    The billing and membership root. Owns environments, members, service users,
+    proxy tokens and settings.
+  relationships:
+  - has_many: Environment
+    via: environment_id
+  - has_many: ProxyToken
+    via: token_id
+- name: Environment
+  rpcs: 13
+  description: >-
+    Isolation boundary inside a workspace (dev / staging / prod), each with its
+    own apps, secrets, quotas and RBAC roles.
+  relationships:
+  - belongs_to: Workspace
+    via: workspace_id
+  - has_many: App
+    via: app_id
+  - has_many: Secret
+    via: secret_id
+- name: App
+  rpcs: 24
+  description: >-
+    Deployable unit grouping functions, classes and resources; versioned, with
+    deployment history, rollback and rollover.
+  relationships:
+  - belongs_to: Environment
+    via: environment_name
+  - has_many: Function
+    via: function_id
+  - has_many: Sandbox
+    via: app_id
+  - has_many: Deployment
+    via: AppDeploymentHistory
+- name: Function
+  rpcs: 23
+  description: >-
+    A remotely invocable unit with its own image, GPU/CPU/memory config,
+    autoscaler and retry policy.
+  relationships:
+  - belongs_to: App
+    via: app_id
+  - has_one: Image
+    via: image_id
+  - has_many: FunctionCall
+    via: function_call_id
+  - has_many: Secret
+    via: secret_ids
+- name: FunctionCall
+  rpcs: 8
+  description: >-
+    A single invocation of a Function, cancellable while running, with inputs and
+    outputs retained up to 7 days.
+  relationships:
+  - belongs_to: Function
+    via: function_id
+  - has_many: Attempt
+    via: attempt_token
+- name: Attempt
+  rpcs: 3
+  description: >-
+    One execution attempt of a FunctionCall — the retry unit (AttemptStart,
+    AttemptRetry, AttemptAwait).
+  relationships:
+  - belongs_to: FunctionCall
+    via: function_call_id
+- name: Sandbox
+  rpcs: 31
+  description: >-
+    Isolated, GPU-capable container for untrusted code. The largest entity in the
+    contract, carrying filesystem, exec, tunnel, tag, snapshot and restore RPCs.
+  relationships:
+  - belongs_to: App
+    via: app_id
+  - has_one: Image
+    via: image_id
+  - has_many: SandboxSnapshot
+    via: snapshot_id
+  - has_many: Tunnel
+    via: tunnel_id
+  - has_many: Volume
+    via: volume_mounts
+- name: SandboxSnapshot
+  rpcs: 6
+  description: >-
+    Filesystem, directory or memory capture of a Sandbox. Filesystem and
+    directory snapshots ARE Images; memory snapshots are their own type.
+  relationships:
+  - belongs_to: Sandbox
+    via: sandbox_id
+  - has_one: Image
+    via: image_id
+    note: Filesystem and directory snapshots only.
+- name: Image
+  rpcs: 9
+  description: >-
+    Built, cached container image with pip/apt/uv layers or a custom Dockerfile.
+    Garbage collected on TTL when created as a snapshot.
+  relationships:
+  - has_many: Function
+    via: image_id
+- name: Volume
+  rpcs: 18
+  description: >-
+    Distributed read/write filesystem for model weights, datasets and caches.
+    Volumes v2 is the HIPAA-in-scope generation.
+  relationships:
+  - belongs_to: Environment
+    via: environment_name
+- name: SharedVolume
+  rpcs: 9
+  description: >-
+    Network File System — the older shared-mount storage primitive, distinct from
+    Volume.
+  relationships:
+  - belongs_to: Environment
+    via: environment_name
+- name: Secret
+  rpcs: 4
+  description: Named environment-variable bundle mounted into Functions and Sandboxes.
+  relationships:
+  - belongs_to: Environment
+    via: environment_name
+  - has_many: Function
+    via: secret_ids
+- name: Dict
+  rpcs: 12
+  description: Distributed key-value store; entries expire 7 days after last read or write.
+  relationships:
+  - belongs_to: Environment
+    via: environment_name
+- name: Queue
+  rpcs: 10
+  description: Distributed FIFO queue with per-partition TTL, default 24 hours.
+  relationships:
+  - belongs_to: Environment
+    via: environment_name
+- name: Container
+  rpcs: 13
+  description: >-
+    A running instance executing a Function or Server. Stoppable gracefully or
+    immediately; carries exec and filesystem RPCs.
+  relationships:
+  - belongs_to: Function
+    via: function_id
+  - belongs_to: Task
+    via: task_id
+- name: Task
+  rpcs: 6
+  description: >-
+    Scheduling-layer handle for a container (id prefix ta-). The
+    TaskCommandRouter service addresses these directly.
+  relationships:
+  - has_one: Container
+    via: task_id
+- name: Endpoint
+  rpcs: 5
+  description: >-
+    Managed LLM inference endpoint (the `modal endpoint` product, 1.5.1+).
+    Authenticated by proxy token unless created --unauthenticated.
+  relationships:
+  - belongs_to: App
+    via: app_id
+- name: Server
+  rpcs: 2
+  description: >-
+    Low-latency HTTP compute primitive introduced in 1.5.1 via @app.server().
+  relationships:
+  - belongs_to: App
+    via: app_id
+- name: WebhookToken
+  rpcs: 7
+  description: >-
+    Proxy tokens gating inbound traffic to web endpoints, Servers and Endpoints.
+    Presented as Modal-Key / Modal-Secret.
+  relationships:
+  - belongs_to: Workspace
+    via: workspace_id
+- name: Tunnel
+  rpcs: 2
+  description: Port forward between a container and the caller.
+  relationships:
+  - belongs_to: Sandbox
+    via: sandbox_id
+- name: Proxy
+  rpcs: 7
+  description: Static-IP egress proxy for reaching allowlisted external networks.
+  relationships:
+  - belongs_to: Environment
+    via: environment_name
+- name: Mount
+  rpcs: 3
+  description: Local-file mount uploaded into an image or container.
+- name: Blob
+  rpcs: 2
+  description: >-
+    Object-storage handle for payloads over 2 MiB — function inputs and outputs
+    above that size are stored here rather than inline.
+- name: Token
+  rpcs: 3
+  description: >-
+    Control-plane credential (token id + token secret), including the
+    browser-based TokenFlow used by `modal setup`.
+maintainers:
+- FN: Kin Lane
+  email: kin@apievangelist.com

@@ -1,0 +1,115 @@
+generated: '2026-09-18'
+method: searched
+source: https://modal.com/docs/guide/scim + https://modal.com/docs/guide/oidc-integration + https://oidc.modal.com/.well-known/openid-configuration + https://modal.com/docs/guide/security
+provider: Modal
+providerId: modal-labs
+description: >-
+  Cross-cutting standards Modal's own contract and discovery documents declare,
+  each with the exact location the claim is read from. Modal's control plane is
+  gRPC/Protobuf, so the HTTP-shaped conventions (RFC 9457 problem+json,
+  JSON:API, OData) do not apply and are recorded as non-conformant rather than
+  missing.
+conformance:
+- id: oidc
+  name: OpenID Connect Discovery 1.0
+  conforms: true
+  evidence: >-
+    https://oidc.modal.com/.well-known/openid-configuration returns HTTP 200
+    with issuer, jwks_uri, subject_types_supported, response_types_supported
+    [id_token], id_token_signing_alg_values_supported [RS256] and
+    scopes_supported [openid]. Probed 2026-09-18.
+  scope: >-
+    Workload identity only — Modal signs short-lived JWTs that identify a running
+    Function to an external service. It is not an end-user login surface.
+- id: oauth2
+  name: OAuth 2.0
+  conforms: false
+  evidence: >-
+    No /.well-known/oauth-authorization-server on any Modal host (modal.com 404,
+    oidc.modal.com 403, api.modal.com gRPC catch-all, probed 2026-09-18). Modal
+    authenticates with a token id + token secret pair, not OAuth flows.
+- id: scim
+  name: SCIM 2.0 (RFC 7643 / RFC 7644)
+  conforms: true
+  evidence: >-
+    https://modal.com/docs/guide/scim documents a SCIM connector base URL of
+    https://modal.com/api/<your-workspace>/scim/v2, links RFC 7643 by name, and
+    gives configured setups for Okta, Microsoft Entra and generic IdPs.
+    Documented as Beta.
+- id: saml
+  name: SAML 2.0 SSO
+  conforms: true
+  evidence: >-
+    https://modal.com/docs/guide/saml-sso, plus Okta
+    (https://modal.com/docs/guide/okta-sso) and Microsoft Entra
+    (https://modal.com/docs/guide/entra-sso) integration guides.
+- id: grpc
+  name: gRPC / Protocol Buffers proto3
+  conforms: true
+  evidence: >-
+    grpc/modal-labs-api.proto, fetched verbatim from
+    modal-labs/modal-client/modal_proto/api.proto. syntax = "proto3", package
+    modal.client, service ModalClient with 251 RPCs over 570 messages, plus
+    service TaskCommandRouter (23 RPCs) in
+    grpc/modal-labs-task-command-router.proto.
+- id: rfc9457
+  name: RFC 9457 Problem Details for HTTP APIs
+  conforms: false
+  evidence: >-
+    Not applicable to the control plane — errors are gRPC status codes carried in
+    trailers, not application/problem+json bodies. See
+    errors/modal-labs-problem-types.yml.
+- id: jsonapi
+  name: JSON:API
+  conforms: false
+  evidence: No REST resource surface exists to apply it to.
+- id: odata
+  name: OData
+  conforms: false
+  evidence: No $metadata surface; the control plane is gRPC.
+- id: idempotency
+  name: Idempotent write semantics
+  conforms: true
+  evidence: >-
+    Ten *GetOrCreate RPCs in grpc/modal-labs-api.proto (AppGetOrCreate,
+    DictGetOrCreate, EnvironmentGetOrCreate, ImageGetOrCreate, MountGetOrCreate,
+    ProxyGetOrCreate, QueueGetOrCreate, SecretGetOrCreate,
+    SharedVolumeGetOrCreate, VolumeGetOrCreate) make resource creation
+    replay-safe by construction, and VolumePutFiles2Response documents an
+    "idempotent no-op" result. This is NOT a request-scoped Idempotency-Key
+    header — see conventions/modal-labs-conventions.yml, coverage: partial.
+- id: pagination
+  name: Cursor/token pagination
+  conforms: false
+  evidence: >-
+    Not documented as a cross-cutting convention; list RPCs in the proto do not
+    declare a uniform page-token pattern.
+- id: soc2
+  name: SOC 2 Type 2
+  conforms: true
+  evidence: >-
+    https://modal.com/docs/guide/security — "We have successfully completed a
+    System and Organization Controls (SOC) 2 Type 2 audit." Report requested via
+    https://trust.modal.com/.
+- id: hipaa
+  name: HIPAA
+  conforms: partial
+  evidence: >-
+    https://modal.com/docs/guide/security — BAA available on Enterprise; Volumes
+    v1, Images (excluding Filesystem and Directory Snapshots), Memory Snapshots
+    and user code are explicitly out of BAA scope. Volumes v2 are in scope.
+domain_standards:
+- id: scim
+  name: SCIM 2.0 identity provisioning (RFC 7643 / RFC 7644)
+  conforms: true
+  market: Identity and access management for cloud platforms
+  evidence: >-
+    https://modal.com/docs/guide/scim publishes a versioned SCIM v2 endpoint
+    shape — https://modal.com/api/<your-workspace>/scim/v2 — used verbatim as the
+    Okta "SCIM connector base URL", the Entra "Tenant URL" and the generic "SCIM
+    base URL". An enterprise IdP that already speaks SCIM provisions Modal users
+    with no bespoke connector.
+  status: Beta
+maintainers:
+- FN: Kin Lane
+  email: kin@apievangelist.com

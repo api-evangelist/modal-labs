@@ -1,0 +1,81 @@
+generated: '2026-09-18'
+method: searched
+source: https://modal.com/docs/sdk/py/releases
+provider: Modal
+providerId: modal-labs
+description: >-
+  Modal publishes dated release notes for the Python SDK and CLI, which together
+  are the product's contract — there is no separate platform changelog, because
+  new platform capability reaches users as an SDK release. The notes are also
+  readable from the terminal via `modal changelog`.
+url: https://modal.com/docs/sdk/py/releases
+cli: modal changelog
+cli_docs: https://modal.com/docs/cli/latest/changelog
+scheme: semver
+current_version: 1.5.5
+current_released: '2026-08-28'
+cadence: >-
+  Roughly every two to six weeks; six releases in the 1.5 line between 2026-06-09
+  and 2026-08-28.
+breaking_change_policy: >-
+  Breaking changes are limited to Y-version increments of X.Y.Z (see
+  lifecycle/modal-labs-lifecycle.yml).
+entries:
+- version: 1.5.5
+  date: '2026-08-28'
+  breaking: false
+  additions:
+  - modal.Sandbox.logs with fetch() and tail() over a date/time range.
+  - Configurable default role when creating a Restricted Environment.
+  - Global --profile option on the CLI.
+  deprecations:
+  - Undocumented object-type APIs deprecated; removal in 1.6.0.
+- version: 1.5.4
+  date: '2026-08-12'
+  breaking: false
+  additions:
+  - App.logs (fetch/tail/stream) and Image.logs (fetch/tail) for build logs.
+  - modal image logs CLI command.
+  - Workspace.billing.rates() and `modal billing rates`.
+  - Fractional target_concurrency for autoscaling.
+  highlights:
+  - >-
+    Opt-in Sandbox V2 backend via MODAL_SANDBOX_V2=1, with substantially higher
+    creation rates and concurrency; becomes the default in 1.6.0.
+  deprecations:
+  - FileIO-based Sandbox filesystem API unsupported under Sandbox V2.
+- version: 1.5.3
+  date: '2026-07-23'
+  breaking: false
+  additions:
+  - Log APIs on Function, Server and FunctionCall (stream/fetch/tail).
+  - Workspace and Environment billing summaries, plus matching CLIs.
+  - Environment.roles interface replacing Environment.members.
+  - --compute-region on modal endpoint create.
+  highlights:
+  - Roughly 2.5x faster large writes in Sandbox filesystem methods.
+- version: 1.5.2
+  date: '2026-07-10'
+  breaking: false
+  additions:
+  - Workspace.settings.list()/set() and matching CLI.
+  - modal.types module exposing public dataclasses.
+  - routing_region on Function.with_options().
+  - --graceful flag on modal container stop.
+- version: 1.5.1
+  date: '2026-06-23'
+  breaking: false
+  additions:
+  - '@app.server() decorator and modal.Server — a low-latency HTTP compute primitive.'
+  - modal endpoint CLI for deploying LLM inference endpoints.
+  - Proxy token create/list APIs and `modal workspace proxy-tokens`.
+  - modal curl for calling authenticated endpoints (experimental).
+  - --strategy (rolling or recreate) on modal app rollback.
+  highlights:
+  - Two new product surfaces (Servers and Endpoints) shipped in one release.
+- version: 1.5.0
+  date: '2026-06-09'
+  breaking: false
+maintainers:
+- FN: Kin Lane
+  email: kin@apievangelist.com

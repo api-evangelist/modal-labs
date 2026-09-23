@@ -1,0 +1,40 @@
+generated: '2026-09-18'
+method: searched
+source: https://github.com/modal-labs/modal-client/blob/main/py/modal/skills/modal/SKILL.md
+provider: Modal
+providerId: modal-labs
+description: >-
+  Modal PUBLISHES its own Agent Skill. It is not something this pipeline
+  authored: the skill ships inside the `modal` PyPI distribution at
+  py/modal/skills/modal/SKILL.md, and Modal exposes a dedicated CLI command
+  group — `modal skills install|show|update` — to install it into a project's
+  .agents/ or .claude/ directory, optionally bundling the docs as local
+  references. Saved verbatim.
+distribution:
+  cli: modal skills install
+  cli_docs: https://modal.com/docs/cli/latest/skills
+  installs_to:
+  - .agents/
+  - .claude/ (with --claude)
+  global_flag: -g / --global installs to the user home directory
+  bundled_docs: >-
+    By default the installer also downloads Modal documentation into
+    references/; --no-docs skips it.
+  package: modal (PyPI)
+skills:
+- name: modal
+  file: modal-labs-modal-skill.md
+  authored_by: provider
+  method: searched
+  source: https://raw.githubusercontent.com/modal-labs/modal-client/main/py/modal/skills/modal/SKILL.md
+  description: >-
+    Foundational skill for working with the Modal cloud platform. Triggers when
+    a user mentions Modal, imports the `modal` SDK in Python/Go/JavaScript, or
+    needs scalable compute, GPUs, or a sandbox for untrusted code.
+  grounds_on:
+  - https://modal.com/llms.txt
+  - https://modal.com/llms-full.txt
+  - the `modal` CLI
+maintainers:
+- FN: Kin Lane
+  email: kin@apievangelist.com

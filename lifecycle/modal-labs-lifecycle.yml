@@ -1,0 +1,110 @@
+generated: '2026-09-18'
+method: searched
+source: https://modal.com/docs/guide/feature-maturity + https://modal.com/docs/sdk/py/releases + https://status.modal.com/
+provider: Modal
+providerId: modal-labs
+description: >-
+  Modal publishes an explicit feature-maturity policy that separates
+  INFRASTRUCTURE maturity (Alpha / Beta / GA) from SDK API stability
+  (experimental markers), plus a deprecation policy tied to semantic versioning.
+  Versioning lives in the SDK, not in a URL path — there is no /v1/ to pin,
+  because the control plane is gRPC and the client library is the contract.
+versioning:
+  scheme: semver
+  pattern: X.Y.Z
+  current: 1.5.5
+  current_released: '2026-08-28'
+  surface: SDK / client library
+  note: >-
+    "Breaking changes are limited to increments of the Y version in our X.Y.Z
+    versioning scheme." There is no URL or header API version to negotiate.
+  docs: https://modal.com/docs/guide/feature-maturity
+maturity_model:
+  docs: https://modal.com/docs/guide/feature-maturity
+  phases:
+  - name: Alpha
+    description: >-
+      Features that may still be fragile with known limitations; expect
+      significant changes. Some Alpha features are private (contact required).
+  - name: Beta
+    description: >-
+      The default phase for new features. Generally self-serve, functional and
+      mostly stable; often suitable for production while behaviour, pricing or
+      scale limits are still being refined.
+  - name: GA
+    description: >-
+      Stable and production-ready; no breaking changes planned. Anything not
+      marked Alpha or Beta in the docs is GA.
+  sdk_stability:
+    marker: _experimental_ prefix (e.g. _experimental_snapshot())
+    description: >-
+      An orthogonal SDK-only signal about interface stability — method names,
+      parameters and return types may change. Explicitly NOT a statement about
+      infrastructure maturity.
+  currently_beta:
+  - JavaScript and Go SDKs
+  - SCIM Integration
+  - User groups
+  - Slack notifications
+  currently_alpha:
+  - Customer-supplied encryption keys
+deprecation:
+  policy: true
+  docs: https://modal.com/docs/guide/feature-maturity
+  mechanism: >-
+    Deprecated SDK APIs remain functional and emit deprecation warnings at
+    runtime. "Deprecations will eventually be enforced and code that exercises
+    the deprecated API will break."
+  enforcement_boundary: >-
+    Removals land on a minor (Y) version increment, never a patch.
+  sunset_header: false
+  sunset_header_note: >-
+    RFC 8594 Sunset/Deprecation headers do not apply — the deprecation channel is
+    a Python warning from the client library, not an HTTP response header.
+  migration_guides:
+  - name: Modal 1.0 migration guide
+    url: https://modal.com/docs/guide/modal-1-0-migration
+  - name: Sandbox filesystem API migration
+    url: https://modal.com/docs/guide/migrate-sandbox-filesystem
+  recent_deprecations:
+  - version: 1.5.5
+    date: '2026-08-28'
+    note: >-
+      Undocumented APIs on object types deprecated, scheduled for removal in
+      1.6.0.
+  - version: 1.5.3
+    date: '2026-07-23'
+    note: >-
+      modal.Environment.members and `modal environment members` deprecated in
+      favour of Environment.roles / `modal environment roles`.
+  - version: 1.5.4
+    date: '2026-08-12'
+    note: >-
+      The FileIO-based Sandbox filesystem API is deprecated and unsupported by
+      the Sandbox V2 backend, which becomes the default in 1.6.0.
+  unsupported_surfaces: >-
+    "Only the official SDKs are currently considered to be stable. Any other
+    public interfaces are undocumented, subject to change without warning, and
+    use-at-your-own risk." The .proto carries the same warning verbatim: "direct
+    usage of Modal's gRPC API is discouraged, and no support or compatibility
+    guarantees are provided."
+status_page:
+  url: https://status.modal.com/
+  status: 200
+  probed: '2026-09-18'
+  platform: third-party hosted status page
+sla:
+  published: false
+  note: >-
+    No public SLA document found. Availability commitments appear under the
+    Enterprise agreement; the security guide publishes a shared-responsibility
+    model instead, which places backup, recovery and contingency planning on the
+    customer.
+  shared_responsibility: https://modal.com/docs/guide/security
+support:
+  slack: https://modal.com/slack
+  email: support@modal.com
+  security_email: security@modal.com
+maintainers:
+- FN: Kin Lane
+  email: kin@apievangelist.com

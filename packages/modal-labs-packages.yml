@@ -1,0 +1,67 @@
+generated: '2026-09-18'
+method: searched
+source: https://modal.com/docs/guide/sdk-javascript-go + registry metadata endpoints (pypi.org, registry.npmjs.org, proxy.golang.org)
+provider: Modal
+providerId: modal-labs
+description: >-
+  Modal ships three first-party client SDKs — Python (the primary interface,
+  which also carries the `modal` CLI), JavaScript/TypeScript, and Go. All three
+  are developed in the single public monorepo modal-labs/modal-client, which
+  also publishes the gRPC .proto files the SDKs are generated against. Python is
+  GA; the JavaScript and Go SDKs are documented as Beta and version in lockstep
+  (both at 0.10.1, tagged `go/v0.10.1` in the same repo).
+packages:
+- name: modal
+  registry: pypi
+  official: true
+  language: Python
+  url: https://pypi.org/project/modal/
+  repository: https://github.com/modal-labs/modal-client
+  docs: https://modal.com/docs/sdk/py/latest
+  install: pip install modal
+  version: 1.5.5
+  published: '2026-08-28'
+  note: >-
+    The primary Modal interface. Bundles the `modal` CLI console script and the
+    generated gRPC stubs. Release notes at https://modal.com/docs/sdk/py/releases.
+- name: modal
+  registry: npm
+  official: true
+  language: JavaScript/TypeScript
+  url: https://www.npmjs.com/package/modal
+  repository: https://github.com/modal-labs/modal-client
+  docs: https://modal-labs.github.io/libmodal/
+  install: npm install modal
+  version: 0.10.1
+  published: '2026-09-10'
+  note: >-
+    Beta. Modal Labs owns the `modal` name on npm; package.json repository
+    resolves to github.com/modal-labs/modal-client, confirming first-party.
+- name: github.com/modal-labs/modal-client/go
+  registry: go
+  official: true
+  language: Go
+  url: https://pkg.go.dev/github.com/modal-labs/modal-client/go
+  repository: https://github.com/modal-labs/modal-client
+  docs: https://pkg.go.dev/github.com/modal-labs/modal-client/go#section-documentation
+  install: go get github.com/modal-labs/modal-client/go
+  version: v0.10.1
+  published: '2026-09-10'
+  note: >-
+    Beta. Resolved from proxy.golang.org, which reports tag `go/v0.10.1` on the
+    modal-client repo. The bare module path github.com/modal-labs/modal-client
+    (v1.3.1, 2026-01-22) is the repo root, not the Go SDK.
+not_first_party:
+- name: mcp-modal
+  registry: pypi
+  official: false
+  version: 0.5.0
+  published: null
+  note: >-
+    Third-party MCP server for Modal, authored by George Bobby
+    (github.com/george-bobby/mcp-modal). Recorded here so a later pass does not
+    mistake it for a Modal-published agent surface. Modal publishes no MCP
+    server of its own.
+maintainers:
+- FN: Kin Lane
+  email: kin@apievangelist.com

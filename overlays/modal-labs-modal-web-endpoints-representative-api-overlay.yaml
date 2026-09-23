@@ -1,0 +1,64 @@
+overlay: 1.0.0
+info:
+  title: API Evangelist enhancements for the Modal Web Endpoints (Representative) API
+  version: 1.0.0
+x-generated: '2026-09-18'
+x-method: generated
+x-source: openapi/modal-labs-modal-web-endpoints-representative-api-openapi.yml
+x-note: >-
+  This overlay never mutates the underlying document. It records what API
+  Evangelist knows about Modal that the representative spec cannot state for
+  itself — above all that the spec is a SHAPE, not a first-party contract: the
+  real machine-readable contract is grpc/modal-labs-api.proto, and the concrete
+  host, routes and schemas of any *.modal.run endpoint are authored by the
+  developer who deployed it, not by Modal.
+actions:
+- target: $.info
+  description: Point the reader at the real contract and the authentication model.
+  update:
+    x-real-contract:
+      type: Protobuf
+      file: grpc/modal-labs-api.proto
+      service: modal.client.ModalClient
+      rpcs: 251
+      note: >-
+        Modal's own header on this file reads "direct usage of Modal's gRPC API is
+        discouraged, and no support or compatibility guarantees are provided. We
+        recommend using official SDKs instead."
+    x-authentication:
+      inbound-proxy-auth:
+        headers:
+        - Modal-Key
+        - Modal-Secret
+        enforced-by: Modal edge proxy, before user code runs
+        docs: https://modal.com/docs/guide/webhook-proxy-auth
+    x-artifacts:
+      conventions: conventions/modal-labs-conventions.yml
+      errors: errors/modal-labs-problem-types.yml
+      authentication: authentication/modal-labs-authentication.yml
+      lifecycle: lifecycle/modal-labs-lifecycle.yml
+- target: $.servers[0]
+  description: Record that the templated host is authoritative, not a placeholder to be replaced.
+  update:
+    x-host-is-templated: true
+    x-host-note: >-
+      Modal generates the concrete host from the workspace, app and function
+      names at deploy time. There is no single production host for this API, and
+      substituting one would be wrong rather than more specific.
+- target: $.paths['/'].post
+  description: Flag the write surface for agent governance.
+  update:
+    x-agentic-access:
+      action-class: acting
+      consequence: write
+      reversibility: >-
+        Not determinable from this document — the reversal path belongs to the
+        developer's own application. See conventions/modal-labs-conventions.yml
+        for the platform-level reversibility Modal itself publishes.
+- target: $.paths['/{proxy}'].get
+  description: Mark the catch-all as developer-owned surface.
+  update:
+    x-not-modal-owned: true
+    x-note: >-
+      Any route the developer's mounted ASGI/WSGI application exposes is
+      reachable here. Modal defines the host, not the routes.

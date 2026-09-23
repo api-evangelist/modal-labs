@@ -1,0 +1,57 @@
+generated: '2026-09-18'
+method: searched
+source: >-
+  https://modal.com/llms.txt, https://modal.com/docs/cli/latest/skills,
+  https://pypi.org/pypi/mcp-modal/json, GitHub org modal-labs (96 repos listed
+  2026-09-18)
+provider: Modal
+providerId: modal-labs
+status: none
+description: >-
+  Modal publishes NO first-party MCP server — neither a hosted endpoint nor a
+  stdio package. Searched the docs, llms.txt, the modal-labs GitHub org and the
+  package registries on 2026-09-18 and found only (a) a documentation example
+  showing a customer how to DEPLOY their own stateless MCP server on Modal with
+  FastMCP, which is Modal as the host rather than Modal as the server, and (b)
+  `mcp-modal` on PyPI, which is third-party — authored by George Bobby at
+  github.com/george-bobby/mcp-modal, not by Modal Labs.
+  Modal's chosen agent surface is an Agent Skill instead: it ships SKILL.md
+  inside the `modal` distribution and installs it with `modal skills install`.
+  See skills/_index.yml. No MCPServer pointer is wired in apis.yml, because a
+  pointer would assert Modal serves a surface it does not.
+deployment:
+  mode: none
+  endpoint: null
+  install: null
+  package: null
+  auth: unknown
+  verified: searched
+searched:
+- url: https://modal.com/llms.txt
+  status: 200
+  finding: >-
+    One MCP mention across 372 lines — "Deploy a stateless MCP with FastMCP",
+    a customer-facing example, not a Modal-operated server.
+- url: https://modal.com/docs/examples/mcp_server_stateless
+  status: 200
+  finding: Guide for hosting a customer's own MCP server on Modal.
+- url: https://modal.com/mcp
+  status: 404
+- url: https://modal.com/docs/reference/mcp
+  status: 404
+- url: https://pypi.org/pypi/mcp-modal/json
+  status: 200
+  finding: >-
+    version 0.5.0, author "George Bobby", Homepage
+    https://github.com/george-bobby/mcp-modal. Third-party; not first-party.
+adjacent_agent_surface:
+  type: AgentSkill
+  artifact: skills/_index.yml
+  note: >-
+    Modal's answer to agent onboarding is a published Agent Skill plus llms.txt
+    and llms-full.txt, delivered through the CLI rather than through MCP. That
+    is a real agent surface and it is scored as one — it is simply not an MCP
+    server, and this file records the difference rather than blurring it.
+maintainers:
+- FN: Kin Lane
+  email: kin@apievangelist.com
