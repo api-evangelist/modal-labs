@@ -89,15 +89,15 @@ paths:
       - Modal Web Endpoints (Representative)
 components:
   schemas:
-    RepresentativeResponse:
-      type: object
-      description: Placeholder response body. The real schema is whatever the developer's function returns.
-      additionalProperties: true
-      example:
-        result: example value
     RepresentativeRequest:
       type: object
       description: Placeholder request body. The real schema is whatever the developer's function (or Pydantic model) declares.
       additionalProperties: true
       example:
         input: example value
+    RepresentativeResponse:
+      type: object
+      description: Placeholder response body. The real schema is whatever the developer's function returns.
+      additionalProperties: true
+      example:
+        result: example value

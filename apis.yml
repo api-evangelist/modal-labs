@@ -91,7 +91,7 @@ apis:
   tags:
   - Dicts
   - Queues
-  - Key-Value
+  - Key-Value Store
   - Messaging
   - SDK
   tags_raw:
@@ -100,6 +100,7 @@ apis:
   - Key Value
   - Messaging
   - SDK
+  - Key-Value
   image: https://kinlane-images.s3.amazonaws.com/shared/apis-json/apis-json-logo.jpg
   humanURL: https://modal.com/docs/guide/dicts-and-queues
   properties:
