@@ -1,42 +1,4 @@
 edges:
-- partner_name: Datadog (own)
-  partner: datadog
-  partner_match: mirror
-  mirror_match: domain
-  type: marketplace
-  relationship: platform-app
-  direction: third-party
-  channel: partner-built
-  marketplace: own
-  evidence: https://github.com/DataDog/integrations-extras/tree/master/modal
-  mirror_of: datadog/integrations/datadog-integration-edges.yml
-  apps:
-  - Modal
-  listing_count: 1
-  detected: '2026-10-14'
-  detected_by: mirror-platform-listings.py
-  category: Cloud
-- partner_name: Okta (own)
-  partner: okta
-  partner_match: mirror
-  mirror_match: domain
-  type: marketplace
-  relationship: platform-app
-  direction: third-party
-  channel: partner-built
-  marketplace: own
-  evidence: https://www.okta.com/integrations/modal/
-  mirror_of: okta/integrations/okta-integration-edges.yml
-  apps:
-  - Modal
-  listing_count: 1
-  detected: '2026-10-14'
-  detected_by: mirror-platform-listings.py
-  category: Single Sign-On
-  badges:
-  - OKTA_VERIFIED
-  features:
-  - SAML
 - partner_name: Go module proxy
   partner: null
   partner_match: null
@@ -197,6 +159,74 @@ edges:
     detected: '2026-10-20'
   detected_by: sweep-agent-skills.py
   first_seen: '2026-10-20'
+- partner_name: Datadog (own)
+  partner: datadog
+  partner_match: mirror
+  mirror_match: domain
+  type: marketplace
+  relationship: platform-app
+  direction: third-party
+  channel: partner-built
+  marketplace: own
+  evidence: https://github.com/DataDog/integrations-extras/tree/master/modal
+  mirror_of: datadog/integrations/datadog-integration-edges.yml
+  apps:
+  - Modal
+  listing_count: 1
+  detected: '2026-10-14'
+  detected_by: mirror-platform-listings.py
+  category: Cloud
+- partner_name: Okta (own)
+  partner: okta
+  partner_match: mirror
+  mirror_match: domain
+  type: marketplace
+  relationship: platform-app
+  direction: third-party
+  channel: partner-built
+  marketplace: own
+  evidence: https://www.okta.com/integrations/modal/
+  mirror_of: okta/integrations/okta-integration-edges.yml
+  apps:
+  - Modal
+  listing_count: 1
+  detected: '2026-10-14'
+  detected_by: mirror-platform-listings.py
+  category: Single Sign-On
+  badges:
+  - OKTA_VERIFIED
+  features:
+  - SAML
+- partner_name: Hugging Face (hugging-face-hub)
+  partner: hugging-face
+  partner_match: mirror
+  mirror_match: domain
+  type: marketplace
+  relationship: platform-app
+  direction: third-party
+  channel: partner-built
+  marketplace: hugging-face-hub
+  evidence: https://huggingface.co/modal-labs
+  mirror_of: hugging-face/integrations/hugging-face-integration-edges.yml
+  apps:
+  - modal-labs/dissolve
+  - modal-labs/autoinference-agentic-mix-v2
+  - modal-labs/autoinference-agentic-mix-v1
+  - modal-labs/autoinference-realtime-mix-v1
+  - modal-labs/Kimi-K3-DFlash
+  - modal-labs/GLM-5.3-NVFP4-DFlash
+  - modal-labs/GLM-5.3-Flash-DFlash
+  - modal-labs/Qwen3.6-35B-A3B-DFlash
+  - modal-labs/Qwen3.5-9B-DFlash
+  - modal-labs/GLM-5.3-NVFP4
+  - modal-labs/Qwen3.5-35B-A3B-DFlash
+  - modal-labs/Qwen3.8-2.4T-A95B-DFlash
+  listing_count: 2
+  detected: '2026-10-23'
+  detected_by: mirror-platform-listings.py
+  category: Hugging Face Hub datasets
+  badges:
+  - Verified publisher (Hugging Face verified organisation)
 generated: '2026-10-13'
 method: searched
 checked:
@@ -217,6 +247,7 @@ checked:
 - https://officialskills.sh/sitemap.xml
 - https://skillsmp.com/sitemap.xml
 - https://www.skills.sh/sitemap.xml
+- hugging-face/integrations/hugging-face-integration-edges.yml
 source:
 - datadog/integrations/datadog-integration-edges.yml
 - okta/integrations/okta-integration-edges.yml
