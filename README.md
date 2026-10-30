@@ -1,4 +1,4 @@
-# Modal (modal-labs)
+# Modal
 
 <!-- API-EVANGELIST-PROVENANCE:BEGIN -->
 > ### About this repository
@@ -64,207 +64,159 @@
 > Full detail: **[Where this data comes from](https://apievangelist.com/about/where-our-data-comes-from)**
 <!-- API-EVANGELIST-PROVENANCE:END -->
 
-Modal is a serverless cloud for AI, data, and general compute. Developers define infrastructure as code in Python (with JavaScript and Go SDKs) and run functions, GPUs, sandboxes, web endpoints, cron jobs, and volumes on demand.
+Modal is a serverless cloud for AI, data, and general compute. Developers define infrastructure as code in Python (with JavaScript and Go SDKs) and run functions, GPUs, sandboxes, web endpoints, cron jobs, and volumes on demand. The primary developer interface is the Modal SDK and CLI communicating with a gRPC backend, not a conventional first-party REST API. User-deployed Modal Functions can be exposed as HTTPS web endpoints (@modal.fastapi_endpoint / asgi_app / wsgi_app / web_server) on *.modal.run, and Sandboxes can expose ports via network tunnels.
 
-**Important - SDK/gRPC, not a REST API:** Modal's primary developer interface is the Modal SDK and the `modal` CLI communicating with a gRPC backend. Modal does **not** publish a conventional first-party public REST API for defining or invoking infrastructure. The one genuine HTTPS surface is **user-deployed web endpoints** (`@modal.fastapi_endpoint` / `asgi_app` / `wsgi_app` / `web_server`) served on `*.modal.run`, plus optional Sandbox network tunnels - and even those have request/response shapes defined by the developer's own code, not a Modal-owned contract. The surfaces below are catalogued as developer capabilities; SDK-only ones intentionally omit an OpenAPI reference, and the OpenAPI provided is a clearly-labeled **representative** of a typical user web endpoint. See `review.yml` for the full assessment.
+**Areas:** Serverless · Compute · GPU · AI Infrastructure · Sandbox · Infrastructure as Code
 
-**APIs.json:** [https://raw.githubusercontent.com/api-evangelist/modal-labs/refs/heads/main/apis.yml](https://raw.githubusercontent.com/api-evangelist/modal-labs/refs/heads/main/apis.yml)
+## Modal on APIs.io
 
-## Tags
+Everything profiled for Modal is published on APIs.io rather than in this repository. Start at the provider page — **[apis.io/providers/modal-labs/](https://apis.io/providers/modal-labs/)** — or go straight to one of the APIs or properties below.
 
-- Serverless
-- Compute
-- GPU
-- AI Infrastructure
-- Sandboxes
-- Infrastructure as Code
+### APIs (22)
 
-## Timestamps
+- [Modal Functions and Remote Invocation](https://apis.io/apis/modal-labs/modal-labs-functions-api/) — Decorate Python functions with @app.function to run them remotely on Modal's cloud. Invoke deployed functions synchronously (.remote), asynchronously…
+- [Modal Volumes](https://apis.io/apis/modal-labs/modal-labs-volumes-api/) — Distributed, high-performance file system volumes for sharing state across functions and containers, managed via modal.Volume in the SDK and the `modal…
+- [Modal Dicts and Queues](https://apis.io/apis/modal-labs/modal-labs-dicts-queues-api/) — Distributed key-value store (modal.Dict) and distributed queue (modal.Queue) for passing state and messages between functions and containers. Accessed…
+- [Modal Secrets](https://apis.io/apis/modal-labs/modal-labs-secrets-api/) — Securely inject environment variables and credentials into functions and sandboxes via modal.Secret, managed in the dashboard, CLI, or SDK (Secret.from_name…
+- [Modal Cron and Scheduled Functions](https://apis.io/apis/modal-labs/modal-labs-scheduled-api/) — Run functions on a recurring schedule using modal.Period or modal.Cron passed to @app.function(schedule=...). Schedules are declared in code and managed…
+- [Modal Images and GPU](https://apis.io/apis/modal-labs/modal-labs-images-gpu-api/) — Define container images programmatically with modal.Image (from_registry, debian_slim, pip_install, run_commands) and attach GPUs by passing gpu= (T4, L4,…
+- [Modal CLI](https://apis.io/apis/modal-labs/modal-labs-cli/) — The `modal` command-line interface for deploying apps, running functions, tailing logs, managing volumes/secrets/dicts, and launching shells. Wraps the same…
+- [Modal Web Endpoints (Representative) API](https://apis.io/apis/modal-labs/modal-labs-modal-web-endpoints-representative-api/) — The Modal Web Endpoints (Representative) API from Modal — 2 operation(s) for modal web endpoints (representative).
+- [Modal Functions API](https://apis.io/apis/modal-labs/modal-functions-api/) — Defines, deploys, and invokes serverless Python Functions on Modal with per-function GPU/CPU/memory configuration, autoscaling, and sub-second cold starts.
+- [Modal Apps API](https://apis.io/apis/modal-labs/modal-apps-api/) — Logical grouping of functions, classes, and resources deployed and versioned together as an App.
+- [Modal Sandboxes API](https://apis.io/apis/modal-labs/modal-sandboxes-api/) — Spins up isolated, GPU-capable sandbox containers for running untrusted code (LLM agents, tool use, code-interpreter workflows) with file-system and network…
+- [Modal Images API](https://apis.io/apis/modal-labs/modal-images-api/) — Builds, caches, and rehydrates container images with pip / conda / apt / uv layers and supports custom Dockerfiles for function and sandbox runtimes.
+- [Modal Volumes API](https://apis.io/apis/modal-labs/modal-volumes-api/) — Distributed read/write Volumes for persistent storage of model weights, datasets, and caches across function invocations.
+- [Modal Network File Systems API](https://apis.io/apis/modal-labs/modal-network-file-systems-api/) — Network File Systems for shared, mountable file storage across multiple functions and sandboxes.
+- [Modal Secrets API](https://apis.io/apis/modal-labs/modal-secrets-api/) — Stores environment-variable secrets and API keys, mountable into functions and sandboxes at runtime.
+- [Modal Web Endpoints API](https://apis.io/apis/modal-labs/modal-web-endpoints-api/) — Publishes HTTP, WebSocket, and ASGI/WSGI web endpoints (FastAPI, Flask, Streamlit) backed by serverless Modal containers with custom domains and TLS.
+- [Modal Cron API](https://apis.io/apis/modal-labs/modal-cron-api/) — Schedules functions to run on cron expressions with retries, time-zone awareness, and job history.
+- [Modal Queues API](https://apis.io/apis/modal-labs/modal-queues-api/) — Distributed FIFO queues for asynchronous workloads, work-stealing, and producer/consumer patterns across functions.
+- [Modal Dicts API](https://apis.io/apis/modal-labs/modal-dicts-api/) — Distributed dictionaries (key-value stores) for sharing state between functions and across container restarts.
+- [Modal Tunnels API](https://apis.io/apis/modal-labs/modal-tunnels-api/) — Forwards local ports into Modal containers (and vice versa) for development, debugging, and hybrid networking.
+- [Modal Environments API](https://apis.io/apis/modal-labs/modal-environments-api/) — Multi-environment isolation (dev / staging / prod) within a workspace, each with its own apps, secrets, and quotas.
+- [Modal Token / Workspace API](https://apis.io/apis/modal-labs/modal-token-api/) — Manages workspaces, tokens, members, and authentication for the Modal control plane.
 
-- **Created:** 2026-07-01
-- **Modified:** 2026-07-01
+### Published properties
 
-## APIs
+Each property below is a page on APIs.io carrying the machine-readable artifact and what it says.
 
-### Modal Functions and Remote Invocation
+#### Agentic access (1)
 
-Decorate Python functions with `@app.function` to run them remotely on Modal's cloud. Invoke deployed functions synchronously (`.remote`), asynchronously (`.spawn`), in parallel (`.map`), or look them up from another app via `Function.from_name`. SDK/gRPC-only - there is no first-party REST endpoint.
+Which operations an agent can call, which act, and which need a human in the loop.
 
-- **Human URL:** [https://modal.com/docs/guide/apps](https://modal.com/docs/guide/apps)
+- [Modal Labs Agentic Access](https://apis.io/agentic-access/modal-labs/modal-labs-agentic-access/)
 
-#### Tags
+#### Collections (2)
 
-- Functions
-- Remote Execution
-- Serverless
-- SDK
+Postman and Open Collection request collections.
 
-#### Properties
+- [Modal Web Endpoints (Representative)](https://apis.io/collections/modal-labs/open-modal-labs/)
+- [Modal Web Endpoints (Representative) Modal Web Endpoints (Representative) Modal Web Endpoints (Representative) Modal Web Endpoints (Representative) API](https://apis.io/collections/modal-labs/open-modal-labs-modal-web-endpoints-representative-api/)
 
-- [Documentation](https://modal.com/docs/guide/apps)
-- [API Reference](https://modal.com/docs/reference/modal.Function)
+#### Overlays (1)
 
-### Modal Web Endpoints
+OpenAPI overlays, including conversational phrasing for each operation.
 
-The genuine HTTPS surface. Functions decorated with `@modal.fastapi_endpoint`, `@modal.asgi_app`, `@modal.wsgi_app`, or `@modal.web_server` are auto-deployed as HTTPS endpoints on `*.modal.run`. The URL host is fixed by Modal but the request/response schema is defined by the developer's own code, so the accompanying OpenAPI is representative.
+- [Modal Labs Modal Web Endpoints Representative Api Overlay](https://apis.io/overlays/modal-labs/modal-labs-modal-web-endpoints-representative-api-overlay/)
 
-- **Human URL:** [https://modal.com/docs/guide/webhooks](https://modal.com/docs/guide/webhooks)
-- **Base URL:** `https://<workspace>--<app>-<function>.modal.run`
+#### Security (4)
 
-#### Tags
+Authentication, trust centre, and vulnerability disclosure.
 
-- Web Endpoints
-- HTTP
-- FastAPI
-- ASGI
-- Webhooks
+- [Modal Labs Authentication](https://apis.io/security/modal-labs/modal-labs-authentication/)
+- [Modal Labs Domain Security](https://apis.io/security/modal-labs/modal-labs-domain-security/)
+- [Modal Labs Trust Center](https://apis.io/security/modal-labs/modal-labs-trust-center/)
+- [Modal Labs Vulnerability Disclosure](https://apis.io/security/modal-labs/modal-labs-vulnerability-disclosure/)
 
-#### Properties
+#### Plans and pricing (1)
 
-- [Documentation](https://modal.com/docs/guide/webhooks)
-- [API Reference](https://modal.com/docs/reference/modal.fastapi_endpoint)
-- [OpenAPI](openapi/modal-labs-openapi.yml) — [OpenAPI Specification](https://spec.openapis.org/oas/latest.html) (representative)
-- [Postman Collection](collections/modal-labs.postman_collection.json) — [Postman Collection 2.1](https://schema.getpostman.com/json/collection/v2.1.0/collection.json)
-- [Open Collection](collections/modal-labs.opencollection.json) — [Open Collection 1.0](https://schema.opencollection.com/opencollection/v1.0.0.json)
+Published plans, tiers and prices.
 
-### Modal Sandboxes
+- [Modal Labs Plans Pricing](https://apis.io/plans/modal-labs/modal-labs-plans-pricing/)
 
-Secure containers for executing untrusted user or agent-generated code, created via `Sandbox.create()` in the Python, JavaScript, and Go SDKs. Supports `exec()`, filesystem access, Volumes, Secrets, and network tunnels that can expose a container port over HTTPS. Lifecycle control is SDK/gRPC-only.
+#### Rate limits (1)
 
-- **Human URL:** [https://modal.com/docs/guide/sandbox](https://modal.com/docs/guide/sandbox)
+Published request limits.
 
-#### Tags
+- [Modal Labs Rate Limits](https://apis.io/rate-limits/modal-labs/modal-labs-rate-limits/)
 
-- Sandboxes
-- Code Execution
-- Containers
-- Agents
+#### FinOps (1)
 
-#### Properties
+What the API costs to run, by operation.
 
-- [Documentation](https://modal.com/docs/guide/sandbox)
-- [API Reference](https://modal.com/docs/reference/modal.Sandbox)
-- [OpenAPI](openapi/modal-labs-openapi.yml) — [OpenAPI Specification](https://spec.openapis.org/oas/latest.html) (representative)
+- [Modal Labs Finops](https://apis.io/finops/modal-labs/modal-labs-finops/)
 
-### Modal Volumes
+## Where to find this API
 
-Distributed, high-performance file system volumes for sharing state across functions and containers, managed via `modal.Volume` in the SDK and the `modal volume` CLI. SDK/CLI-only with no public REST endpoint.
+Links to the company's own pages. This repository publishes no copy of their specifications — the canonical document is theirs and lives at the URLs below.
 
-- **Human URL:** [https://modal.com/docs/guide/volumes](https://modal.com/docs/guide/volumes)
-
-#### Tags
-
-- Volumes
-- Storage
-- Persistence
-- SDK
-
-#### Properties
-
-- [Documentation](https://modal.com/docs/guide/volumes)
-- [API Reference](https://modal.com/docs/reference/modal.Volume)
-
-### Modal Dicts and Queues
-
-Distributed key-value store (`modal.Dict`) and distributed queue (`modal.Queue`) for passing state and messages between functions and containers. Accessed exclusively through the SDK; no public REST interface.
-
-- **Human URL:** [https://modal.com/docs/guide/dicts-and-queues](https://modal.com/docs/guide/dicts-and-queues)
-
-#### Tags
-
-- Dicts
-- Queues
-- Key Value
-- Messaging
-- SDK
-
-#### Properties
-
-- [Documentation](https://modal.com/docs/guide/dicts-and-queues)
-- [API Reference](https://modal.com/docs/reference/modal.Dict)
-
-### Modal Secrets
-
-Securely inject environment variables and credentials into functions and sandboxes via `modal.Secret`, managed in the dashboard, CLI, or SDK (`Secret.from_name` / `from_dict`). SDK/CLI-only; no public REST endpoint.
-
-- **Human URL:** [https://modal.com/docs/guide/secrets](https://modal.com/docs/guide/secrets)
-
-#### Tags
-
-- Secrets
-- Configuration
-- Credentials
-- SDK
-
-#### Properties
-
-- [Documentation](https://modal.com/docs/guide/secrets)
-- [API Reference](https://modal.com/docs/reference/modal.Secret)
-
-### Modal Cron and Scheduled Functions
-
-Run functions on a recurring schedule using `modal.Period` or `modal.Cron` passed to `@app.function(schedule=...)`. Schedules are declared in code and managed through deployment; there is no REST scheduling API.
-
-- **Human URL:** [https://modal.com/docs/guide/cron](https://modal.com/docs/guide/cron)
-
-#### Tags
-
-- Cron
-- Scheduling
-- Jobs
-- SDK
-
-#### Properties
-
-- [Documentation](https://modal.com/docs/guide/cron)
-- [API Reference](https://modal.com/docs/reference/modal.Cron)
-
-### Modal Images and GPU
-
-Define container images programmatically with `modal.Image` (`from_registry`, `debian_slim`, `pip_install`, `run_commands`) and attach GPUs by passing `gpu=` (T4, L4, A10, L40S, A100, H100, H200, B200) to a function. Declared in code and resolved by the gRPC backend; no public REST endpoint.
-
-- **Human URL:** [https://modal.com/docs/guide/images](https://modal.com/docs/guide/images)
-
-#### Tags
-
-- Images
-- GPU
-- Containers
-- Environments
-- SDK
-
-#### Properties
-
-- [Documentation](https://modal.com/docs/guide/images)
-- [API Reference](https://modal.com/docs/reference/modal.Image)
-
-### Modal CLI
-
-The `modal` command-line interface for deploying apps, running functions, tailing logs, managing volumes/secrets/dicts, and launching shells. Wraps the same gRPC control plane the SDK uses.
-
-- **Human URL:** [https://modal.com/docs/reference/cli/modal](https://modal.com/docs/reference/cli/modal)
-
-#### Tags
-
-- CLI
-- Tooling
-- Deployment
-
-#### Properties
-
-- [Documentation](https://modal.com/docs/reference/cli/modal)
-
-## Common Properties
-
-- [GitHub Organization](https://github.com/modal-labs)
-- [LinkedIn](https://www.linkedin.com/company/modal-labs)
 - [Website](https://modal.com/)
 - [Documentation](https://modal.com/docs)
-- [Plans](plans/modal-labs-plans-pricing.yml)
-- [Rate Limits](rate-limits/modal-labs-rate-limits.yml)
-- [Fin Ops](finops/modal-labs-finops.yml)
+- [Getting started](https://modal.com/docs/examples/hello_world)
+- [API reference](https://modal.com/docs/sdk/py/latest)
+- [Pricing](https://modal.com/pricing)
+- [Sign up](https://modal.com/signup)
+- [Support](https://modal.com/slack)
+- [Changelog](https://modal.com/docs/sdk/py/releases)
+- [Blog](https://modal.com/blog/atom.xml)
+- [Trust centre](https://trust.modal.com/)
+- [Terms of service](https://modal.com/legal/terms)
+- [Privacy policy](https://modal.com/legal/privacy-policy)
+- [GitHub](https://github.com/modal-labs)
+- [Status](https://status.modal.com/)
 
-## Maintainers
+## API Evangelist rating
 
-**FN:** Kin Lane
-**Email:** kin@apievangelist.com
+**Kin Score 56.2** — strong · rubric 0.25.0 · scored 2026-10-23
+
+| Facet | Score |
+|---|---|
+| Discoverability | 64.3 |
+| Contract quality | 43.5 |
+| Contract governance | 18.2 |
+| Operational transparency | 52.6 |
+| Developer ergonomics | 81.0 |
+| Access clarity | 60.5 |
+
+**Agent readiness 33.0** — agent-ready
+
+| Agent-readiness dimension | Result |
+|---|---|
+| Spec Presence | yes |
+| Agentic Access | derived (partial credit) |
+| Reversibility Documented | — |
+| MCP Server | — |
+| Auth Clarity | served (partial credit) |
+| Idempotency | documented (partial credit) |
+| Error Semantics | documented (partial credit) |
+| OpenAPI Examples | — |
+| Rate Limit Signal | derived (partial credit) |
+| Event Surface Described | — |
+| Agent Skills | yes |
+| Well Known Catalog | — |
+| Consent Identity | — |
+| Agent Card | — |
+| Dry Run Mode | — |
+| Delegated Identity | — |
+| Protected Resource Metadata | — |
+| Dynamic Client Registration | — |
+| Agentic Commerce | — |
+| Pagination Ratio | na |
+| Operation Distinctiveness | distinct |
+
+**Regulatory alignment 30.4** — Horizontal (data, software, accessibility, platform)
+
+The rubric is published at [github.com/api-evangelist/kin-score](https://github.com/api-evangelist/kin-score). The per-check breakdown behind these numbers — which checks were earned, partial or missed — along with score history and how this provider compares to its peers, is available at [apis.io/providers/modal-labs/](https://apis.io/providers/modal-labs/).
+
+## How this profile is made
+
+API Evangelist profiles a company's public API surface the way a developer would find it: the website, developer portal and documentation, the specifications it publishes, its public repositories, and its pricing, status and changelog pages. From that it derives the properties above — contracts split per API, workflows, schemas, collections, governance rules, plans and rate limits — and scores them against the published [Kin Score rubric](https://github.com/api-evangelist/kin-score).
+
+The artifacts are published on [APIs.io](https://apis.io), not in this repository. This repository is the public record for Modal: the place to say something is wrong, missing or out of date, and to ask for a re-score or a removal.
+
+## Open an issue
+
+- **Something about this listing** — a wrong description, a missing API, a stale artifact or a question about the rating: [open an issue on this repository](https://github.com/api-evangelist/modal-labs/issues/new).
+- **A new API, or one that is not in the catalog yet** — [submit it on APIs.io](https://apis.io/add/).
+- **Anything else** — [the APIs.io inbox](https://github.com/api-search/inbox/issues/new) or [info@apievangelist.com](mailto:info@apievangelist.com).
